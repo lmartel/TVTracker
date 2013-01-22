@@ -1,7 +1,10 @@
 class CreateShows < ActiveRecord::Migration
   def change
     create_table :shows do |t|
-      t.integer :quick_info_id
+    	t.integer :api_id
+    	t.string :name
+    	t.boolean :ended
+    	t.string :airtime
 
       t.timestamps
     end

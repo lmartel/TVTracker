@@ -11,30 +11,25 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120906050624) do
+ActiveRecord::Schema.define(:version => 20120908072843) do
 
-  create_table "episode_infos", :force => true do |t|
-    t.integer  "quick_info_id"
+  create_table "episodes", :force => true do |t|
+    t.integer  "show_id"
     t.string   "name"
     t.date     "airdate"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
-  end
-
-  create_table "quick_infos", :force => true do |t|
-    t.integer  "show_id"
-    t.integer  "api_id"
-    t.string   "name"
-    t.boolean  "ended"
-    t.datetime "airtime"
+    t.integer  "season_id"
+    t.integer  "episode_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
   create_table "shows", :force => true do |t|
-    t.integer  "quick_info_id"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.integer  "api_id"
+    t.string   "name"
+    t.boolean  "ended"
+    t.string   "airtime"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
 end
