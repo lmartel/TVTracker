@@ -2,7 +2,7 @@ class ShowsController < ApplicationController
   # GET /shows
   # GET /shows.json
   def index
-    @shows = Show.all
+    @shows = Show.order("name asc").all
 
     respond_to do |format|
       format.html # index.html.erb
@@ -79,5 +79,11 @@ class ShowsController < ApplicationController
       format.html { redirect_to shows_url }
       format.json { head :no_content }
     end
+  end
+
+  def sync
+    @show = Show.find(params[:id])
+    Episode.pull_episodes(@show)
+    redirect_to shows_path
   end
 end

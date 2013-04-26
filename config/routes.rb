@@ -56,5 +56,14 @@ TVTrackerPrototype::Application.routes.draw do
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id))(.:format)'
 
-  resources :shows
+  root :to => 'pages#index'
+
+  match '/signup' => 'users#new'
+  match '/login' => 'sessions#new'
+  match 'logout' => 'sessions#destroy'
+
+  resources :sessions
+  resources :users
+  resources :shows, :only => [:index, :show, :new]
+  match 'shows/:id/sync' => 'shows#sync', :as => 'sync'
 end

@@ -1,0 +1,26 @@
+<div class="navbar navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+      <a class="brand" href="#">TV Tracker</a>
+      <div class="nav-collapse">
+        <ul class="nav">
+          <% if current_user %>
+            <li><%= link_to "My Shows" %></li>
+          <% end %>
+          <li><%= link_to "Browse Shows", shows_path %></li>
+          <% if current_user %>
+            <li><%= link_to "Logout", "/logout" %></li>
+          <% else %>
+            <li><%= link_to "Login", "/login" %></li>
+            <li><%= link_to "Signup", "/signup" %></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
