@@ -2,6 +2,11 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-td {
-  white-space: nowrap;
+#shows-table {
+
+  td {
+    vertical-align: middle;
+    font-size: inherit;
+    white-space: nowrap;
+  }
 }

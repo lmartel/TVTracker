@@ -64,7 +64,7 @@ TVTrackerPrototype::Application.routes.draw do
 
   resources :sessions
   resources :users
-  resources :shows, :only => [:index, :show, :new]
+  resources :shows, :only => [:index, :show, :create]
   match 'shows/:id/sync' => 'shows#sync', :as => 'sync'
   match 'shows/:id/subscribe' => 'subscriptions#subscribe', :as => 'subscribe'
 

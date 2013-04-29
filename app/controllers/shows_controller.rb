@@ -44,10 +44,10 @@ class ShowsController < ApplicationController
 
     respond_to do |format|
       if @show.save
-        format.html { redirect_to @show, notice: 'Show was successfully created.' }
+        format.html { redirect_to shows_path, notice: 'Show was successfully created.' }
         format.json { render json: @show, status: :created, location: @show }
       else
-        format.html { render action: "new" }
+        format.html { redirect_to shows_path }
         format.json { render json: @show.errors, status: :unprocessable_entity }
       end
     end
