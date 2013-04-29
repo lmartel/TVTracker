@@ -11,16 +11,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130426045020) do
+ActiveRecord::Schema.define(:version => 20130428222050) do
 
   create_table "episodes", :force => true do |t|
     t.integer  "show_id"
     t.string   "name"
     t.date     "airdate"
-    t.integer  "season_id"
-    t.integer  "episode_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.integer  "season_number"
+    t.integer  "episode_number"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
   end
 
   create_table "shows", :force => true do |t|
@@ -28,6 +28,14 @@ ActiveRecord::Schema.define(:version => 20130426045020) do
     t.string   "name"
     t.boolean  "ended"
     t.string   "airtime"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "subscriptions", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "show_id"
+    t.integer  "episode_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end

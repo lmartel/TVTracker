@@ -4,8 +4,8 @@ class CreateEpisodes < ActiveRecord::Migration
 			t.integer :show_id
 			t.string :name
 			t.date :airdate
-			t.integer :season_id
-			t.integer :episode_id
+			t.integer :season_number
+			t.integer :episode_number
 
       t.timestamps
     end

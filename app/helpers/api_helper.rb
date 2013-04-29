@@ -19,14 +19,17 @@ module ApiHelper
     res = Net::HTTP.start(url.host, url.port) do |http|
       http.request(req)
     end
-    # File.open("wikipage_testlog.txt", 'w') {|f| f.write(JSON.parse(res.body)) }
     parse_data(res.body)
   end
 
   def self.parse_data(result)
     data = Hash.new
+
     # Removes html tags
-    result = result.gsub(/<[^>]*>/, '')
+    result.gsub!(/<[^>]*>/, '')
+
+    # UTF8-ify weird unicode characters
+    result.force_encoding('UTF-8')
     result.split("\n").each do |line|
       pair = line.split("@")
       data[pair[0]] = pair[1]

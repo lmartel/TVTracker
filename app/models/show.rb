@@ -2,11 +2,8 @@ require 'api_helper'
 
 class Show < ActiveRecord::Base
   has_many :episodes
-
-  # This gets most recent episode
-  # TODO: store past- and future- episodes separately? sorta need next and last
-  # could also just compare current date/time to airdate/time
-  # Episode.where(airdate: Episode.maximum("airdate"))
+  has_many :subscriptions
+  has_many :users, through: :subscriptions
 
 	validates :api_id, uniqueness: true
 	validates :name, presence: true
@@ -24,11 +21,11 @@ class Show < ActiveRecord::Base
 	# forces sort-descending on episodes
 	alias_method :original_episodes, :episodes
 	def episodes
-		original_episodes.order("airdate desc")
+		original_episodes.order("airdate asc")
 	end
 
 	def next_episode
-		episodes.first
+		episodes.last
 	end
 
 	def self.query(name)
@@ -48,5 +45,9 @@ class Show < ActiveRecord::Base
 		self.airtime = data[ApiHelper::API_DATA_KEYS[:airtime]]
 		# self.episodes << Episode.build_from_quick_info(data[API_DATA_KEYS[:next_episode]]) unless ended
 		# Episode.pull_episodes(self)
+	end
+
+	def subscribed?(user)
+		Subscription.exists?(show_id: self.id, user_id: user.id)
 	end
 end

@@ -1,0 +1,41 @@
+<%- model_class = Subscription -%>
+<div class="page-header">
+  <h1>
+    <%#=t '.title', :default => model_class.model_name.human.pluralize %>
+    <%=t '.title', :default => "Tracked Shows" %>
+  </h1>
+</div>
+<div class="subscription-list">
+  <% @subscriptions.each do |subscription| %>
+    <div class="subscription-box" id="subscription-box<%= subscription.id %>">
+      <%= render :partial => "list_item", :locals => { :subscription => subscription } %>
+    </div>
+  <% end %>
+</div>
+
+<script type="text/javascript">
+$(document).on("click", ".subscription", function(event) {
+  var sid = parseInt(this.id.split("subscription")[1]);
+  $.ajax({
+    type: "POST",
+    url: "<%= watch_path %>",
+    data: { id: sid },
+    datatype: "html",
+    success: function(result){
+      $("#subscription-box" + sid).append(result); 
+      oldPanel = $("#subscription-box" + sid + " > div:first");
+      newPanel = $("#subscription-box" + sid + " > div:last");
+      newPanel.css("left", "150%");
+      oldPanel.animate({
+        left: "-150%" //TODO: make this work for larger screens, ie make content pane scale up with screen size?
+      }, 500, function() { 
+      //remove all but last child div, so the callback works even with queued animations
+        $("#subscription-box" + sid + " > div").slice(0, -1).remove();
+      });
+      newPanel.animate({
+        left: "-=150%"
+      }, 500);
+    }
+  })
+});
+</script>

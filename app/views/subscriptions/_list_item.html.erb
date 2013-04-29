@@ -1,0 +1,12 @@
+<% show = subscription.show %>
+<% last_watched = subscription.episode %>
+
+<div class="media hero-unit subscription" id="subscription<%= subscription.id %>">
+  <a class="pull-left" href="#">
+    <img class="media-object img-polaroid" src="http://placekitten.com/100/100">
+  </a>
+  <div class="media-body">
+    <h2 class="media-heading"><%= show.name %><br> <%= last_watched.numbers_and_name unless last_watched.nil? %></h2>
+    <em>Watch next: <%= Episode.next_episode(last_watched).readable_name_and_airdate %></em>
+  </div>
+</div>

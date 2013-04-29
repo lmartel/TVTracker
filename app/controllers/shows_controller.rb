@@ -83,6 +83,8 @@ class ShowsController < ApplicationController
 
   def sync
     @show = Show.find(params[:id])
+    @show.fetch_and_load_data
+    @show.save
     Episode.pull_episodes(@show)
     redirect_to shows_path
   end

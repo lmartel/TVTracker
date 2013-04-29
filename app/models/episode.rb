@@ -4,28 +4,50 @@ class Episode < ActiveRecord::Base
 
 	belongs_to :show
 
-	attr_accessible :show_id, :name, :airdate, :season_id, :episode_id
+	attr_accessible :show_id, :name, :airdate, :season_number, :episode_number
 
-	validates :episode_id, uniqueness: { scope: [:show_id, :season_id] }
+	validates :episode_number, uniqueness: { scope: [:show_id, :season_number] }
 	validates :show_id, presence: true
 
+	def numbers_and_name
+		"S#{season_number}E#{episode_number} \"#{name}\""
+	end
+
 	def readable_name_and_airdate
-		s = "\"#{name}\" "
+		s = "#{numbers_and_name} ("
 		date_diff = airdate - Date.current
-		if date_diff > - 7 and date_diff < 14
-			s += "last" if date_diff > -7 and date_diff < 0
-			s += "today," if date_diff == 0
-			s += "this" if date_diff > 0 and date_diff < 7
-			s += "next" if date_diff >= 7 and date_diff < 14
+		if date_diff < 0
+			s += "aired "
+		else 
+			s += "airing "
+		end
+		if date_diff > -7 and date_diff < 0
+			s += "last" 
+		elsif date_diff == 0
+			s += "today,"
+		elsif date_diff > 0 and date_diff < 7
+			s += "this" 
+		elsif date_diff >= 7 and date_diff < 14
+			s += "next" 
 		else
 			s += "on"
 		end
-		s += " #{readable_airdate}"
+		s += " #{readable_airdate})"
 		s
 	end
 
 	def readable_airdate
 		"#{Date::DAYNAMES[airdate.wday]} #{airdate.to_s(:long_ordinal)}"
+	end
+
+	def self.next_episode(episode)
+		if episode.nil?
+			next_episode = self.first
+		else
+			next_episode = self.where(show_id: episode.show.id, season_number: episode.season_number, episode_number: episode.episode_number + 1).first
+			next_episode = self.where(show_id: episode.show.id, season_number: episode.season_number + 1, episode_number: 1).first if next_episode.nil?
+		end
+		next_episode
 	end
 
 	def self.build_from_quick_info(show, line)
@@ -35,11 +57,11 @@ class Episode < ActiveRecord::Base
 		episode = season_episode[1].to_i
 		name = data[1]
 		airdate = Date.parse(data[2])
-		create(show_id: show.id, season_id: season, episode_id: episode, name: name, airdate: airdate)
+		create(show_id: show.id, season_number: season, episode_number: episode, name: name, airdate: airdate)
 	end
 
 	def self.all_for_show(show)
-		self.order("season_id desc, episode_id desc").find_by_show_id(show.id)
+		self.order("season_number desc, episode_number desc").find_by_show_id(show.id)
 	end
 
 	def self.pull_episodes(show, force = false)
@@ -47,8 +69,8 @@ class Episode < ActiveRecord::Base
 		s_num = 1
 		ep_num = 1
 		if most_recent_in_db and !force
-			s_num = most_recent_in_db.season_id
-			ep_num = most_recent_in_db.episode_id
+			s_num = most_recent_in_db.season_number
+			ep_num = most_recent_in_db.episode_number
 		end
 		loop do
 			params = { show: show.name, ep: "#{s_num}x#{ep_num}" }.to_param
