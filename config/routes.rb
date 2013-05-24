@@ -58,19 +58,19 @@ TVTrackerPrototype::Application.routes.draw do
 
   root :to => 'pages#index'
 
-  match 'signup' => 'users#new', :as => 'signup'
-  match 'login' => 'sessions#new', :as => 'login'
-  match 'logout' => 'sessions#destroy', :as => 'logout'
+  get 'signup' => 'users#new', :as => 'signup'
+  get 'login' => 'sessions#new', :as => 'login'
+  delete 'logout' => 'sessions#destroy', :as => 'logout'
 
   resources :sessions
   resources :users
   resources :shows, :only => [:index, :show, :create]
-  match 'shows/:id/sync' => 'shows#sync', :as => 'sync'
-  match 'shows/:id/subscribe' => 'subscriptions#subscribe', :as => 'subscribe'
+  post 'shows/:id/sync' => 'shows#sync', :as => 'sync'
+  post 'shows/:id/subscribe' => 'subscriptions#subscribe', :as => 'subscribe'
 
-  match '/subscriptions' => 'subscriptions#index', :as => 'subscriptions_admin'
-  match 'users/:id/shows' => 'subscriptions#list', :as => 'subscriptions'
-  match 'track' => 'subscriptions#list', :as => 'track'
-  match 'subscriptions/watch' => "subscriptions#watch", :as => 'watch'
+  get '/subscriptions' => 'subscriptions#index', :as => 'subscriptions_admin'
+  get 'users/:id/shows' => 'subscriptions#list', :as => 'subscriptions'
+  get 'track' => 'subscriptions#list', :as => 'track'
+  post 'subscriptions/watch' => "subscriptions#watch", :as => 'watch'
   # match 'subscriptions/:id/watch' => "subscriptions#watch", :as => 'watch'
 end

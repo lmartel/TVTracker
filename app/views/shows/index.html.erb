@@ -18,7 +18,7 @@
       <tr>
         <td><%= link_to show.name, show_path(show) %></td>
         <td><%= show.ended ? "All done" : "Still airing" %></td>
-        <td><%= show.airtime %></td>
+        <td><%= show.airtime || "Unknown" %></td>
         <td>
           <% ep = show.next_episode %>
           <% if ep %>
@@ -30,13 +30,13 @@
         <td><%= link_to "Episode List" %></td>
         <td>
           <% subscribed = current_user && show.subscribed?(current_user) %>
-            <a class="btn btn-warning subscribe" <%= 'disabled' if subscribed %> href="<%= subscribed ? '#' : subscribe_url(id: show.id)%>">
-               <%= subscribed ? 'Tracking' : '<i class="icon-truck icon-white"></i> Track!'.html_safe %>
-            </a>
-          <a style="text-align:right;" class="btn btn-inverse update" href="<%= sync_url(id: show.id)%>">
-            <i class="icon-download-alt icon-white"></i>
-             Update
-          </a>
+            <span class="shows-table-action">
+              <%= html_button_to (subscribed ? 'Tracking' : '<i class="icon-truck icon-white"></i> Track!'.html_safe), subscribe_path(id: show.id), :class => "btn btn-warning subscribe", :disabled => subscribed %>
+            </span>
+            <span class="shows-table-action">
+              <%= html_button_to '<i class="icon-download-alt icon-white"></i> Update'.html_safe, sync_path(id: show.id), :class => "btn btn-inverse update" %>
+            </span>
+
           <%#= link_to t('.edit', :default => t("helpers.links.edit")),
                       edit_show_path(show), :class => 'btn btn-mini' %>
           <%#= link_to t('.destroy', :default => t("helpers.links.destroy")),
@@ -58,9 +58,11 @@
 }
 </style>
 <script type="text/javascript">
-$("a.btn.update").click(function(){ 
+$(".btn.update").click(function(){ 
+  $(this).closest("form").submit();
   $(this).attr("disabled", "disabled"); 
   $(this).children("i").removeClass().addClass("icon-white icon-refresh icon-spin");
+  $(this).off();
 });
 </script>
 <%#= link_to t('.new', :default => t("helpers.links.new")),
