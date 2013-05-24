@@ -6,18 +6,18 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </a>
-      <a class="brand" href="#">TV Tracker</a>
+      <%= link_to "TV Tracker", root_path, :class => "brand" %>
       <div class="nav-collapse">
         <ul class="nav">
           <% if current_user %>
-            <li><%= link_to "My Shows", track_path %></li>
+            <%= smart_navbar_item "Track Episodes", track_path %>
           <% end %>
-          <li><%= link_to "Browse Shows", shows_path %></li>
+          <%= smart_navbar_item "Browse Shows", shows_path %>
           <% if current_user %>
             <li><%= link_to "Logout", logout_path, :method => :delete %></li>
           <% else %>
-            <li><%= link_to "Login", login_path %></li>
-            <li><%= link_to "Signup", signup_path %></li>
+            <%= smart_navbar_item "Login", login_path %>
+            <%= smart_navbar_item "Signup", signup_path %>
           <% end %>
         </ul>
       </div>

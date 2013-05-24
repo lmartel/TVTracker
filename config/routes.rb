@@ -67,10 +67,10 @@ TVTrackerPrototype::Application.routes.draw do
   resources :shows, :only => [:index, :show, :create]
   post 'shows/:id/sync' => 'shows#sync', :as => 'sync'
   post 'shows/:id/subscribe' => 'subscriptions#subscribe', :as => 'subscribe'
+  resources :subscriptions, :only => :destroy
 
   get '/subscriptions' => 'subscriptions#index', :as => 'subscriptions_admin'
   get 'users/:id/shows' => 'subscriptions#list', :as => 'subscriptions'
   get 'track' => 'subscriptions#list', :as => 'track'
-  # post 'subscriptions/watch' => "subscriptions#watch", :as => 'watch'
   post 'subscriptions/:id/watch' => "subscriptions#watch", :as => 'watch'
 end

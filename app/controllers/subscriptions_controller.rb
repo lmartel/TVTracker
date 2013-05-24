@@ -18,7 +18,7 @@ class SubscriptionsController < ApplicationController
     @subscription.destroy
 
     respond_to do |format|
-      format.html { redirect_to subscriptions_url }
+      format.html { redirect_to shows_url }
       format.json { head :no_content }
     end
   end
@@ -29,7 +29,7 @@ class SubscriptionsController < ApplicationController
     else
       @show = Show.find(params[:id])
       Subscription.create(user_id: current_user.id, show_id: @show.id)
-      redirect_to track_path
+      redirect_to shows_url
     end
   end
 

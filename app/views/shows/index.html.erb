@@ -29,9 +29,13 @@
         </td>
         <td><%= link_to "Episode List" %></td>
         <td>
-          <% subscribed = current_user && show.subscribed?(current_user) %>
+          <% subscribed = current_user && current_user.subscribed?(show) %>
             <span class="shows-table-action">
-              <%= html_button_to (subscribed ? 'Tracking' : '<i class="icon-truck icon-white"></i> Track!'.html_safe), subscribe_path(id: show.id), :class => "btn btn-warning subscribe", :disabled => subscribed %>
+              <% if subscribed %>
+                <%= html_button_to '<i class="icon-remove-sign icon-white"></i> Untrack'.html_safe, subscription_path(id: current_user.get_subscription(show).id), :class => "btn btn-danger unsubscribe", :method => :delete %>
+              <% else %>
+                <%= html_button_to '<i class="icon-truck icon-white"></i> Track!'.html_safe, subscribe_path(id: show.id), :class => "btn btn-warning subscribe" %>
+              <% end %>
             </span>
             <span class="shows-table-action">
               <%= html_button_to '<i class="icon-download-alt icon-white"></i> Update'.html_safe, sync_path(id: show.id), :class => "btn btn-inverse update" %>

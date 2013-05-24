@@ -53,11 +53,5 @@ class Show < ActiveRecord::Base
 		self.name = data[ApiHelper::API_DATA_KEYS[:name]]
 		self.ended = data[ApiHelper::API_DATA_KEYS[:ended]].present?
 		self.airtime = data[ApiHelper::API_DATA_KEYS[:airtime]]
-		# self.episodes << Episode.build_from_quick_info(data[API_DATA_KEYS[:next_episode]]) unless ended
-		# Episode.pull_episodes(self)
-	end
-
-	def subscribed?(user)
-		Subscription.exists?(show_id: self.id, user_id: user.id)
 	end
 end

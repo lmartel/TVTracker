@@ -1,10 +1,9 @@
 class PagesController < ApplicationController
   def index
-    # if current_user.nil?
-    #   render "login"
-    # else
-    #   render "dashboard"
-    # end
-    redirect_to shows_path
+    if current_user.nil?
+      redirect_to shows_path
+    else
+      redirect_to track_path
+    end
   end
 end

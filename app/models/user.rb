@@ -13,4 +13,12 @@ class User < ActiveRecord::Base
     sub = subscriptions.where(user_id: self.id, show_id: show.id)
     sub.episode unless sub.nil?
   end
+
+  def subscribed?(show)
+    subscriptions.exists?(show_id: show.id)
+  end
+
+  def get_subscription(show)
+    subscriptions.find_by_show_id(show.id)
+  end
 end

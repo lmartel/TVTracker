@@ -15,7 +15,7 @@ class Episode < ActiveRecord::Base
 
 	def readable_name_and_airdate
 		s = "#{numbers_and_name} ("
-		date_diff = airdate - Date.current
+		date_diff = airdate - Time.current.in_time_zone("Pacific Time (US & Canada)").to_date
 		if date_diff < 0
 			s += "aired "
 		else 
