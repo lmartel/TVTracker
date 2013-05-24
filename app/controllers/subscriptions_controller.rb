@@ -50,7 +50,22 @@ class SubscriptionsController < ApplicationController
   def watch
     @subscription = Subscription.find(params[:id])
     @subscription.episode = @subscription.show.next_episode(@subscription.episode)
-    @subscription.save
-    render :partial => "list_item", :layout => false, :locals =>{:subscription => @subscription}
+    if @subscription.episode.nil?
+      head :bad_request 
+    else
+      @subscription.save
+      render :partial => "list_item", :layout => false, :locals =>{:subscription => @subscription}
+    end
+  end
+
+  def unwatch
+    @subscription = Subscription.find(params[:id])
+    if @subscription.episode.nil?
+      head :bad_request
+    else
+      @subscription.episode = @subscription.show.prev_episode(@subscription.episode)
+      @subscription.save
+      render :partial => "list_item", :layout => false, :locals =>{:subscription => @subscription}
+    end
   end
 end

@@ -32,11 +32,24 @@ class Show < ActiveRecord::Base
 		if episode.nil?
 			next_episode = episodes.first
 		else
-			next_episode = episodes.where(show_id: episode.show.id, season_number: episode.season_number, episode_number: episode.episode_number + 1).first
-			next_episode = episodes.where(show_id: episode.show.id, season_number: episode.season_number + 1, episode_number: 1).first if next_episode.nil?
+			next_episode = episodes.where(season_number: episode.season_number, episode_number: episode.episode_number + 1).first
+			next_episode = episodes.where(season_number: episode.season_number + 1, episode_number: 1).first if next_episode.nil?
 		end
 		next_episode
 	end
+
+	def prev_episode(episode)
+		if(episode.nil?)
+			nil
+		elsif episode.episode_number > 1
+			episodes.where(season_number: episode.season_number, episode_number: episode.episode_number - 1).first
+		elsif episode.season_number > 1
+			episodes.find_all_by_season_number(episode.season_number - 1).last
+		else
+			nil
+		end
+	end
+
 
 	def self.query(name)
 		show = self.where(:name => name).first_or_create
@@ -53,5 +66,10 @@ class Show < ActiveRecord::Base
 		self.name = data[ApiHelper::API_DATA_KEYS[:name]]
 		self.ended = data[ApiHelper::API_DATA_KEYS[:ended]].present?
 		self.airtime = data[ApiHelper::API_DATA_KEYS[:airtime]]
+	end
+
+	#TODO: real thumbnails from IMDB
+	def thumbnail
+		return "http://www.placekitten.com/100/100"
 	end
 end
