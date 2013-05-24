@@ -71,6 +71,6 @@ TVTrackerPrototype::Application.routes.draw do
   get '/subscriptions' => 'subscriptions#index', :as => 'subscriptions_admin'
   get 'users/:id/shows' => 'subscriptions#list', :as => 'subscriptions'
   get 'track' => 'subscriptions#list', :as => 'track'
-  post 'subscriptions/watch' => "subscriptions#watch", :as => 'watch'
-  # match 'subscriptions/:id/watch' => "subscriptions#watch", :as => 'watch'
+  # post 'subscriptions/watch' => "subscriptions#watch", :as => 'watch'
+  post 'subscriptions/:id/watch' => "subscriptions#watch", :as => 'watch'
 end

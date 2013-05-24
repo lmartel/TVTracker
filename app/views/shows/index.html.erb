@@ -20,7 +20,7 @@
         <td><%= show.ended ? "All done" : "Still airing" %></td>
         <td><%= show.airtime || "Unknown" %></td>
         <td>
-          <% ep = show.next_episode %>
+          <% ep = show.last_episode %>
           <% if ep %>
             <%= ep.readable_name_and_airdate %>
           <% else %>

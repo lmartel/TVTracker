@@ -49,7 +49,7 @@ class SubscriptionsController < ApplicationController
 
   def watch
     @subscription = Subscription.find(params[:id])
-    @subscription.episode = Episode.next_episode(@subscription.episode)
+    @subscription.episode = @subscription.show.next_episode(@subscription.episode)
     @subscription.save
     render :partial => "list_item", :layout => false, :locals =>{:subscription => @subscription}
   end

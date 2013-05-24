@@ -7,6 +7,6 @@
   </a>
   <div class="media-body">
     <h2 class="media-heading"><%= show.name %><br> <%= last_watched.numbers_and_name unless last_watched.nil? %></h2>
-    <em>Watch next: <%= Episode.next_episode(last_watched).readable_name_and_airdate %></em>
+    <em>Watch next: <%= show.next_episode(last_watched).readable_name_and_airdate %></em>
   </div>
 </div>

@@ -40,16 +40,6 @@ class Episode < ActiveRecord::Base
 		"#{Date::DAYNAMES[airdate.wday]} #{airdate.to_s(:long_ordinal)}"
 	end
 
-	def self.next_episode(episode)
-		if episode.nil?
-			next_episode = self.first
-		else
-			next_episode = self.where(show_id: episode.show.id, season_number: episode.season_number, episode_number: episode.episode_number + 1).first
-			next_episode = self.where(show_id: episode.show.id, season_number: episode.season_number + 1, episode_number: 1).first if next_episode.nil?
-		end
-		next_episode
-	end
-
 	def self.build_from_quick_info(show, line)
 		data = line.split('^')
 		season_episode = data.first.split('x')

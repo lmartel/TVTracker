@@ -1,8 +1,8 @@
 require 'api_helper'
 
 class Show < ActiveRecord::Base
-  has_many :episodes
-  has_many :subscriptions
+  has_many :episodes, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
   has_many :users, through: :subscriptions
 
 	validates :api_id, uniqueness: true
@@ -24,8 +24,18 @@ class Show < ActiveRecord::Base
 		original_episodes.order("airdate asc")
 	end
 
-	def next_episode
+	def last_episode
 		episodes.last
+	end
+
+	def next_episode(episode)
+		if episode.nil?
+			next_episode = episodes.first
+		else
+			next_episode = episodes.where(show_id: episode.show.id, season_number: episode.season_number, episode_number: episode.episode_number + 1).first
+			next_episode = episodes.where(show_id: episode.show.id, season_number: episode.season_number + 1, episode_number: 1).first if next_episode.nil?
+		end
+		next_episode
 	end
 
 	def self.query(name)

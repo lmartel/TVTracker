@@ -6,10 +6,14 @@
   </h1>
 </div>
 <div class="subscription-list">
-  <% @subscriptions.each do |subscription| %>
-    <div class="subscription-box" id="subscription-box<%= subscription.id %>">
-      <%= render :partial => "list_item", :locals => { :subscription => subscription } %>
-    </div>
+  <% if @subscriptions.empty? %>
+  <h2>Nothing! <%= link_to "Start tracking a show.", shows_path %></h2>
+  <% else %>
+    <% @subscriptions.each do |subscription| %>
+      <div class="subscription-box" id="subscription-box<%= subscription.id %>">
+        <%= render :partial => "list_item", :locals => { :subscription => subscription } %>
+      </div>
+    <% end %>
   <% end %>
 </div>
 
@@ -18,8 +22,7 @@ $(document).on("click", ".subscription", function(event) {
   var sid = parseInt(this.id.split("subscription")[1]);
   $.ajax({
     type: "POST",
-    url: "<%= watch_path %>",
-    data: { id: sid },
+    url: "<%= watch_path(':id') %>".replace(":id", sid),
     datatype: "html",
     success: function(result){
       $("#subscription-box" + sid).append(result); 
