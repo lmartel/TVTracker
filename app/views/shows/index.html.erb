@@ -1,7 +1,8 @@
 <%- model_class = Show -%>
+<% @show = Show.new %>
 
 <div class="page-header">
-  <h1><%=t '.title', :default => model_class.model_name.human.pluralize %></h1>
+  <h1><%=t '.title', :default => model_class.model_name.human.pluralize %><span class="shows-top-form"><%= render :partial => 'form', :locals => {:placeholder => "Can't find what you're looking for?" } %></span></h1>
 </div>
 <table class="table table-striped" id="shows-table">
   <thead>
@@ -46,8 +47,7 @@
     <% end %>
   </tbody>
 </table>
-<% @show = Show.new %>
-<%= render :partial => 'form' %>
+<%= render :partial => 'form', :locals => {:placeholder => "Name"} %>
 
 <div id="dialog-form" title="#" style="display:none;" data-target="<%= subscribe_path(:sid, :season, :episode) %>">
   <p class="validateTips">Which episode are you on?</p>
@@ -61,8 +61,7 @@
   </fieldset>
   </form>
 </div>
-
-<style type="text/css"> .container { width: 1170px; } </style>
+<style type="text/css"> .container { width: 80%; } </style>
 <%= stylesheet_link_tag "http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" %>
 <%= javascript_include_tag "http://code.jquery.com/ui/1.10.3/jquery-ui.js" %>
 <script type="text/javascript">
