@@ -21,6 +21,10 @@ body {
       width: 820px; //940 - 60*2 (padding)
       position: absolute;
 
+      a {
+        color: #34a7c8;
+      }
+
       .subscription-rewind {
         position: absolute;
         top: 15px;
@@ -47,7 +51,7 @@ body {
         position: relative;
 
         :hover {
-            background: #0065b4;
+            background: #34a7c8;
           }
 
         .subscription-thumbnail {
