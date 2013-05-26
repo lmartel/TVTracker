@@ -1,0 +1,40 @@
+<% environment.context_class.instance_eval { include Rails.application.routes.url_helpers } %>
+
+function bindShowHandlers(logged_in){
+  $(".btn.update").click(function(event){ 
+    $(this).closest("form").submit();
+    $(this).attr("disabled", "disabled"); 
+    $(this).children("i").removeClass().addClass("icon-white icon-refresh icon-spin");
+    $(this).off();
+    var cell = $(this).closest("td");
+    cell.append('<br><div class="progress progress-striped active update-progress"><div class="bar update-bar"></div></div>');
+    cell.find(".update-bar").animate({
+      width: "100%",
+    }, 30000, 'linear');
+  });
+
+  if(logged_in){
+    $(".subscribe").click(function(event){
+      event.preventDefault();
+      var tr = $(this).closest("tr");
+      var sid = parseInt(tr[0].id.split("show")[1]);
+      var name = tr.find("td:first a").html();
+      $("#dialog-form").attr("title", "Start tracking \"" + name + "\""); //handles first click
+      $(".ui-dialog-title").html("Start tracking \"" + name + "\""); //handles subsequent clicks
+      $("#dialog-form").dialog({
+          height: 300,
+          width: 500,
+          modal: true,
+          buttons: {
+            "Start tracking!": function() {
+              var url = $("#dialog-form").attr("data-target").replace("sid", sid).replace("season", $("#season").val()).replace("episode", $("#episode").val());
+              var form = $("#dialog-form form");
+              form.attr("action", url);
+              form.submit();
+            }
+          }
+      });
+      $("#dialog-form").attr("title", "");
+    });
+  }
+};

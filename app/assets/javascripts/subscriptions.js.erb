@@ -1,0 +1,80 @@
+<% environment.context_class.instance_eval { include Rails.application.routes.url_helpers } %>
+
+function hoverBox(event){
+  var box = $(this).closest(".subscription-box");
+  var thumb = box.find(".subscription-thumbnail-box");
+  thumb.append('<img class="media-object img-polaroid subscription-checkbox" src="assets/check_medium.png">');
+
+  box.children().css("background", "#015b4e none");
+  box.find(".watch-next").css("color", "#aaa");
+};
+
+function unhoverBox(event){
+  var box = $(this).closest(".subscription-box");
+  box.find(".subscription-checkbox").remove();
+  
+  box.children().css("background", "");
+  box.find(".watch-next").css("color", "");
+};
+
+function bindSubscriptionHandlers(){
+  $(".subscription-finished").each(hoverBox);
+
+  $(document).on("mouseenter", ".subscription-box .subscription-more", hoverBox);
+  $(document).on("mouseleave", ".subscription-box .subscription-more", unhoverBox);
+  $(document).on("mouseenter", ".subscription-more .subscription-rewind", unhoverBox);
+  $(document).on("mouseleave", ".subscription-more .subscription-rewind", hoverBox);
+  $(document).on("mouseenter", ".subscription-thumbnail-box", unhoverBox);
+  $(document).on("mouseleave", ".subscription-thumbnail-box", hoverBox);
+  $(document).on("click", ".subscription", function(event) {
+    var sid = parseInt(this.id.split("subscription")[1]);
+    $.ajax({
+      type: "POST",
+      url: "<%= watch_path(':id') %>".replace(":id", sid),
+      datatype: "html",
+      error: function(result){
+        //alert("error doe");
+      },
+      success: function(result){
+        $("#subscription-box" + sid).append(result); 
+        $("#subscription-box" + sid).find(".subscription-finished").each(hoverBox);
+        oldPanel = $("#subscription-box" + sid + " > div:first");
+        newPanel = $("#subscription-box" + sid + " > div:last");
+        newPanel.css("left", "150%");
+        oldPanel.animate({
+          left: "-150%" //TODO: make this work for larger screens, ie make content pane scale up with screen size?
+        }, 500, function() { 
+          //remove all but last child div, so the callback works even with queued animations
+          $("#subscription-box" + sid + " > div").slice(0, -1).remove();
+        });
+        newPanel.animate({
+          left: "-=150%"
+        }, 500);
+      }
+    });
+  });
+  $(document).on("click", ".subscription-rewind", function(event) {
+    event.stopImmediatePropagation();
+    var sid = parseInt($(this).closest(".subscription").attr("id").split("subscription")[1]);
+    $.ajax({
+      type: "POST",
+      url: "<%= unwatch_path(':id') %>".replace(":id", sid),
+      datatype: "html",
+      success: function(result){
+        $("#subscription-box" + sid).append(result);
+        oldPanel = $("#subscription-box" + sid + " > div:first");
+        newPanel = $("#subscription-box" + sid + " > div:last");
+        newPanel.hide();
+        oldPanel.fadeOut(500, function(){
+          newPanel.fadeIn(500, function(){
+            //remove all but last child div, so the callback works even with queued animations
+            $("#subscription-box" + sid + " > div").slice(0, -1).remove();
+          });
+        });
+      }
+    });
+  });
+  $(document).on("click", ".subscription-thumbnail-box", function(event) {
+    event.stopImmediatePropagation();
+  });
+};

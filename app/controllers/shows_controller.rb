@@ -83,8 +83,6 @@ class ShowsController < ApplicationController
 
   def sync
     @show = Show.find(params[:id])
-    @show.fetch_and_load_data
-    @show.save
     begin
       Episode.pull_episodes(@show)
     rescue Errno::ECONNRESET => e

@@ -63,43 +63,10 @@
 </div>
 
 <style type="text/css"> .container { width: 1170px; } </style>
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
-<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<%= stylesheet_link_tag "http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" %>
+<%= javascript_include_tag "http://code.jquery.com/ui/1.10.3/jquery-ui.js" %>
 <script type="text/javascript">
-$(".btn.update").click(function(event){ 
-  $(this).closest("form").submit();
-  $(this).attr("disabled", "disabled"); 
-  $(this).children("i").removeClass().addClass("icon-white icon-refresh icon-spin");
-  $(this).off();
-  var cell = $(this).closest("td");
-  cell.append('<br><div class="progress progress-striped active update-progress"><div class="bar update-bar"></div></div>');
-  cell.find(".update-bar").animate({
-    width: "100%",
-  }, 30000, 'linear');
+$(document).ready(function(){
+  bindShowHandlers(<%= current_user ? true : false %>);
 });
-
-<% if current_user %>
-  $(".subscribe").click(function(event){
-    event.preventDefault();
-    var tr = $(this).closest("tr");
-    var sid = parseInt(tr[0].id.split("show")[1]);
-    var name = tr.find("td:first a").html();
-    $("#dialog-form").attr("title", "Start tracking \"" + name + "\""); //handles first click
-    $(".ui-dialog-title").html("Start tracking \"" + name + "\""); //handles subsequent clicks
-    $("#dialog-form").dialog({
-        height: 300,
-        width: 500,
-        modal: true,
-        buttons: {
-          "Start tracking!": function() {
-            var url = $("#dialog-form").attr("data-target").replace("sid", sid).replace("season", $("#season").val()).replace("episode", $("#episode").val());
-            var form = $("#dialog-form form");
-            form.attr("action", url);
-            form.submit();
-          }
-        }
-    });
-    $("#dialog-form").attr("title", "");
-  });
-<% end %>
 </script>
