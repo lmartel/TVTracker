@@ -23,6 +23,7 @@ module ApiHelper
     uri = URI.parse(SHOW_API_ENDPOINT + params)
     result = get_request(uri)
     data = parse_data(result)
+    data[API_DATA_KEYS[:name]] = data[API_DATA_KEYS[:name]].gsub(/\ \([0-9]+\)/, "") # Remove the "(year)" from the title string, if present
     data.merge!(self.fetch_supplementary(data[API_DATA_KEYS[:name]]))
     data
   end
