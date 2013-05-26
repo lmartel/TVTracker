@@ -1,7 +1,7 @@
 TVTracker
 =========
 
-My first major [finished] personal project. Pumped!
+My first major, finished(ish) personal project. Pumped!
 
 Usage
 -----
