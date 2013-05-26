@@ -1,0 +1,29 @@
+<%- model_class = Episode -%>
+<div class="page-header episode-list-header">
+  <h1><%=t '.title', :default => @show.name + " " + model_class.model_name.human.pluralize %>
+    <%= link_to "Back to show", show_path(@show), :class => 'btn episode-list-back-button' %></h1>
+</div>
+
+<table class="table table-striped" id="episodes-table">
+  <thead>
+    <tr>
+      <th><%= model_class.human_attribute_name(:name) %></th>
+      <th><%= model_class.human_attribute_name(:airdate) %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @show.episodes.reverse.each do |episode| %>
+      <tr>
+        <td><%= episode.numbers_and_name %></td>
+        <td><%= episode.readable_airdate_with_verb(true) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<div class="form-actions">
+  <%= link_to "Back to show", show_path(@show), :class => 'btn'  %>
+</div>
+
+<%#= link_to t('.new', :default => t("helpers.links.new")),
+            new_show_path,
+            :class => 'btn btn-primary' %>

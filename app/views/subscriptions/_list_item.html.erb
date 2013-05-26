@@ -1,18 +1,31 @@
 <% show = subscription.show %>
 <% last_watched = subscription.episode %>
+<% to_watch = show.next_episode(last_watched) %>
+<% up_next = show.next_episode(to_watch) %>
 
-<div class="media hero-unit subscription" id="subscription<%= subscription.id %>">
+<div class="media hero-unit subscription <%= if to_watch then "subscription-more" else "subscription-finished" end %>" id="subscription<%= subscription.id %>">
   <% if last_watched %>
-  <a class="pull-right subscription-rewind" href="#">
-    <button class="btn btn-danger"><i class="icon-fast-backward icon-large"></i></button>
-  </a>
+    <a class="pull-right subscription-rewind" href="#">
+      <button class="btn btn-danger"><i class="icon-backward icon-large"></i></button>
+    </a>
   <% end %>
-  <a class="pull-left" href="#">
-    <img class="media-object img-polaroid subscription-thumbnail" src="http://www.placekitten.com/100/100">
+  <a class="pull-left subscription-thumbnail-box" href="<%= show_path(show) %>">
+    <img class="media-object img-polaroid subscription-thumbnail" src="<%= subscription.show.thumbnail %>">
   </a>
   <div class="media-body">
-    <h2 class="media-heading"><%= show.name %><br> <%= last_watched.numbers_and_name unless last_watched.nil? %></h2>
-    <div class="watch-next"><em>Watch next: <%= show.next_episode(last_watched).readable_name_and_airdate %></em></div>
+    <h3 class="media-heading"><strong><%= show.name %></strong> <%= to_watch.numbers_and_name if to_watch %></h3>
+    <h4 class="media-heading"><%= to_watch.readable_airdate_with_verb if to_watch %></h4>
+    <div class="watch-next">
+      <em>
+        <% if to_watch && up_next %>
+          Watch next: <%= up_next.numbers_and_name %>
+        <% elsif to_watch %>
+          You're almost caught up!
+        <% else %>
+          You're caught up! Want to <%= link_to "watch something else?", shows_path %>
+        <% end %>
+      </em>
+    </div>
   </div>
 
 </div>

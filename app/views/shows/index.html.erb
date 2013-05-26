@@ -1,4 +1,5 @@
 <%- model_class = Show -%>
+
 <div class="page-header">
   <h1><%=t '.title', :default => model_class.model_name.human.pluralize %></h1>
 </div>
@@ -6,18 +7,19 @@
   <thead>
     <tr>
       <th><%= model_class.human_attribute_name(:name) %></th>
+      <th>All Episodes</th>
       <th><%= "#{model_class.human_attribute_name(:ended)}?" %></th>
       <th><%= model_class.human_attribute_name(:airtime) %></th>
-      <th>Next Episode</th>
-      <th>All Episodes</th>
+      <th>Next Episode (press <span class="label label-inverse shows-demo-button"><i class="icon-download-alt icon-white"></i> Update</span> to grab some new episodes)</th>
       <th><%=t '.actions', :default => t("helpers.actions") %></th>
     </tr>
   </thead>
   <tbody>
     <% @shows.each do |show| %>
-      <tr>
+      <tr id="show<%= show.id %>">
         <td><%= link_to show.name, show_path(show) %></td>
-        <td><%= show.ended ? "All done" : "Still airing" %></td>
+        <td><%= link_to "Episode List", episodes_path(show), :class => 'btn btn-info'%></td>
+        <td><%= show.ended ? "Yes" : "Still airing" %></td>
         <td><%= show.airtime || "Unknown" %></td>
         <td>
           <% ep = show.last_episode %>
@@ -27,27 +29,18 @@
             Unknown (try pressing "update")
           <% end %>
         </td>
-        <td><%= link_to "Episode List" %></td>
         <td>
           <% subscribed = current_user && current_user.subscribed?(show) %>
-            <span class="shows-table-action">
-              <% if subscribed %>
-                <%= html_button_to '<i class="icon-remove-sign icon-white"></i> Untrack'.html_safe, subscription_path(id: current_user.get_subscription(show).id), :class => "btn btn-danger unsubscribe", :method => :delete %>
-              <% else %>
-                <%= html_button_to '<i class="icon-truck icon-white"></i> Track!'.html_safe, subscribe_path(id: show.id), :class => "btn btn-warning subscribe" %>
-              <% end %>
-            </span>
-            <span class="shows-table-action">
-              <%= html_button_to '<i class="icon-download-alt icon-white"></i> Update'.html_safe, sync_path(id: show.id), :class => "btn btn-inverse update" %>
-            </span>
-
-          <%#= link_to t('.edit', :default => t("helpers.links.edit")),
-                      edit_show_path(show), :class => 'btn btn-mini' %>
-          <%#= link_to t('.destroy', :default => t("helpers.links.destroy")),
-                      show_path(show),
-                      :method => :delete,
-                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-                      :class => 'btn btn-mini btn-danger' %>
+          <span class="shows-table-action">
+            <% if subscribed %>
+              <%= html_button_to '<i class="icon-remove-sign icon-white"></i> Untrack'.html_safe, subscription_path(id: current_user.get_subscription(show).id), :class => "btn btn-danger unsubscribe", :method => :delete %>
+            <% else %>
+              <%= html_button_to '&nbsp;&nbsp;<i class="icon-truck icon-white"></i> Track!&nbsp;&nbsp;'.html_safe, login_path, :class => "btn btn-warning subscribe", :method => :get %>
+            <% end %>
+          </span>
+          <span class="shows-table-action">
+            <%= html_button_to '<i class="icon-download-alt icon-white"></i> Update'.html_safe, sync_path(id: show.id), :class => "btn btn-inverse update" %>
+          </span>
         </td>
       </tr>
     <% end %>
@@ -56,19 +49,57 @@
 <% @show = Show.new %>
 <%= render :partial => 'form' %>
 
-<style type="text/css">
-.container {
-  width: 1170px;
-}
-</style>
+<div id="dialog-form" title="#" style="display:none;" data-target="<%= subscribe_path(:sid, :season, :episode) %>">
+  <p class="validateTips">Which episode are you on?</p>
+  <form method="post">
+  <fieldset>
+    <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>" />
+    <label for="season">Season #</label>
+    <input type="number" name="season" id="season" value="1" class="text ui-widget-content ui-corner-all" />
+    <label for="episode">Episode #</label>
+    <input type="number" name="episode" id="episode" value="1" class="text ui-widget-content ui-corner-all" />
+  </fieldset>
+  </form>
+</div>
+
+<style type="text/css"> .container { width: 1170px; } </style>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 <script type="text/javascript">
-$(".btn.update").click(function(){ 
+$(".btn.update").click(function(event){ 
   $(this).closest("form").submit();
   $(this).attr("disabled", "disabled"); 
   $(this).children("i").removeClass().addClass("icon-white icon-refresh icon-spin");
   $(this).off();
+  var cell = $(this).closest("td");
+  cell.append('<br><div class="progress progress-striped active update-progress"><div class="bar update-bar"></div></div>');
+  cell.find(".update-bar").animate({
+    width: "100%",
+  }, 30000, 'linear');
 });
+
+<% if current_user %>
+  $(".subscribe").click(function(event){
+    event.preventDefault();
+    var tr = $(this).closest("tr");
+    var sid = parseInt(tr[0].id.split("show")[1]);
+    var name = tr.find("td:first a").html();
+    $("#dialog-form").attr("title", "Start tracking \"" + name + "\""); //handles first click
+    $(".ui-dialog-title").html("Start tracking \"" + name + "\""); //handles subsequent clicks
+    $("#dialog-form").dialog({
+        height: 300,
+        width: 500,
+        modal: true,
+        buttons: {
+          "Start tracking!": function() {
+            var url = $("#dialog-form").attr("data-target").replace("sid", sid).replace("season", $("#season").val()).replace("episode", $("#episode").val());
+            var form = $("#dialog-form form");
+            form.attr("action", url);
+            form.submit();
+          }
+        }
+    });
+    $("#dialog-form").attr("title", "");
+  });
+<% end %>
 </script>
-<%#= link_to t('.new', :default => t("helpers.links.new")),
-            new_show_path,
-            :class => 'btn btn-primary' %>

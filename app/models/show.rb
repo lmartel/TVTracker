@@ -9,7 +9,7 @@ class Show < ActiveRecord::Base
 	validates :name, presence: true
 
 	# add cached aliases for typos etc?
-	attr_accessible :show_id, :api_id, :name, :ended, :airtime
+	attr_accessible :show_id, :api_id, :name, :ended, :airtime, :thumbnail, :starring, :summary
 
 	# putting this in a before_create rather than a before_validation skips validation. figure out how to avoid this.
 	before_create do |show|
@@ -66,10 +66,9 @@ class Show < ActiveRecord::Base
 		self.name = data[ApiHelper::API_DATA_KEYS[:name]]
 		self.ended = data[ApiHelper::API_DATA_KEYS[:ended]].present?
 		self.airtime = data[ApiHelper::API_DATA_KEYS[:airtime]]
+		self.thumbnail = data[ApiHelper::API_DATA_KEYS[:thumbnail]]
+		self.starring = data[ApiHelper::API_DATA_KEYS[:starring]]
+		self.summary = data[ApiHelper::API_DATA_KEYS[:summary]]
 	end
 
-	#TODO: real thumbnails from IMDB
-	def thumbnail
-		return "http://www.placekitten.com/100/100"
-	end
 end

@@ -4,6 +4,15 @@
 
 #shows-table {
 
+  .shows-demo-button {
+    font-size: 13px;
+    border: 1px solid black;
+  }
+
+  th {
+    vertical-align: middle;
+  }
+
   td {
     vertical-align: middle;
     font-size: inherit;
@@ -14,4 +23,23 @@
     float: left;
     padding: 20px 5px 0px 5px;
   }
+
+  .update-progress {
+    width: 228px - 16px - 10px;
+    margin: 0px 5px;
+
+    .update-bar {
+      width: 0%;
+    }
+  }
+
+}
+
+.show-poster {
+  float:left;
+}
+
+.show-info {
+  max-width: 640px;
+  line-height: 1.1em;
 }

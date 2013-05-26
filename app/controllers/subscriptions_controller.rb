@@ -28,7 +28,9 @@ class SubscriptionsController < ApplicationController
       redirect_to login_path 
     else
       @show = Show.find(params[:id])
-      Subscription.create(user_id: current_user.id, show_id: @show.id)
+      next_ep = @show.prev_episode(Episode.where(season_number: params[:season].to_i, episode_number: params[:episode].to_i).first)
+      episode_id = next_ep ? next_ep.id : nil
+      Subscription.create(user_id: current_user.id, show_id: @show.id, episode_id: episode_id)
       redirect_to shows_url
     end
   end

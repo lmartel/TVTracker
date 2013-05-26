@@ -8,6 +8,7 @@ class Episode < ActiveRecord::Base
 
 	validates :episode_number, uniqueness: { scope: [:show_id, :season_number] }
 	validates :show_id, presence: true
+	validates :airdate, presence: true
 
 	def numbers_and_name
 		"S#{season_number}E#{episode_number} \"#{name}\""
@@ -15,6 +16,13 @@ class Episode < ActiveRecord::Base
 
 	def readable_name_and_airdate
 		s = "#{numbers_and_name} ("
+		s += readable_airdate_with_verb(false)
+		s += ")"
+		s
+	end
+
+	def readable_airdate_with_verb(should_capitalize = true)
+		s = ""
 		date_diff = airdate - Time.current.in_time_zone("Pacific Time (US & Canada)").to_date
 		if date_diff < 0
 			s += "aired "
@@ -32,7 +40,8 @@ class Episode < ActiveRecord::Base
 		else
 			s += "on"
 		end
-		s += " #{readable_airdate})"
+		s += " #{readable_airdate}"
+		s[0] = s.first.capitalize if should_capitalize
 		s
 	end
 
@@ -46,7 +55,11 @@ class Episode < ActiveRecord::Base
 		season = season_episode[0].to_i
 		episode = season_episode[1].to_i
 		name = data[1]
-		airdate = Date.parse(data[2])
+		begin
+			airdate = Date.parse(data[2])
+		rescue Exception => e
+			airdate = nil
+		end
 		create(show_id: show.id, season_number: season, episode_number: episode, name: name, airdate: airdate)
 	end
 
@@ -54,14 +67,15 @@ class Episode < ActiveRecord::Base
 		self.order("season_number desc, episode_number desc").find_by_show_id(show.id)
 	end
 
-	def self.pull_episodes(show, force = false)
+	def self.pull_episodes(show, timeout = true)
 		most_recent_in_db = self.limit(1).all_for_show(show)
 		s_num = 1
 		ep_num = 1
-		if most_recent_in_db and !force
+		if most_recent_in_db
 			s_num = most_recent_in_db.season_number
 			ep_num = most_recent_in_db.episode_number
 		end
+		start = Time.now.to_f
 		loop do
 			params = { show: show.name, ep: "#{s_num}x#{ep_num}" }.to_param
 			data = ApiHelper.fetch(params)
@@ -73,10 +87,11 @@ class Episode < ActiveRecord::Base
 				ep_num = 1
 				s_num += 1
 				next
-			elsif episode.airdate.future? 
+			elsif episode.airdate.nil? || episode.airdate.future? 
 				break
 			end 
 			ep_num += 1
+			break if timeout && Time.now.to_f - start >= 30.000 # Max processing time in seconds
 		end
 
 	end

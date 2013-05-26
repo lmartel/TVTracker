@@ -10,7 +10,10 @@ body {
     position: relative;
     height: 290px;
     width: 940px;
-    cursor: pointer;
+
+    .subscription-more {
+      cursor: pointer;
+    }
 
     .subscription {
       margin-top: 0px;
@@ -33,16 +36,34 @@ body {
 
           i {
             position: absolute;
-            left: 20px;
+            left: 22px;
             top: 11px;
           }
         }
       }
 
-      .subscription-thumbnail {
-        width: 100px;
-        height: 100px;
-        background: inherit;
+      .subscription-thumbnail-box {
+
+        position: relative;
+
+        :hover {
+            background: #0065b4;
+          }
+
+        .subscription-thumbnail {
+          height: 160px;
+          margin-top: -20px;
+        }
+
+        .subscription-checkbox {
+          width: 100px;
+          height: 100px;
+          background: none;
+          border: none;
+          position: absolute;
+          top: 0;
+          left: 5px;
+        }
       }
     }
   }

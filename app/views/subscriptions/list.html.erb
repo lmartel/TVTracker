@@ -18,29 +18,30 @@
 </div>
 
 <script type="text/javascript">
-var hoverBox = function(event){
+function hoverBox(event){
   var box = $(this).closest(".subscription-box");
-  var thumb = box.find(".subscription-thumbnail");
-
-  //save old thumbnail to restore after hover
-  var FILENAME = "assets/check_medium.png";
-  if(thumb.attr("src") !== FILENAME) thumb.attr("data-src", thumb.attr("src"));
-  thumb.attr("src", FILENAME);
+  var thumb = box.find(".subscription-thumbnail-box");
+  thumb.append('<img class="media-object img-polaroid subscription-checkbox" src="assets/check_medium.png">');
 
   box.children().css("background", "#015b4e none");
   box.find(".watch-next").css("color", "#aaa");
 };
-var unhoverBox = function(event){
+function unhoverBox(event){
   var box = $(this).closest(".subscription-box");
-  var thumb = box.find(".subscription-thumbnail");
-  thumb.attr("src", thumb.attr("data-src"));
+  box.find(".subscription-checkbox").remove();
+  
   box.children().css("background", "");
   box.find(".watch-next").css("color", "");
 };
-$(document).on("mouseenter", ".subscription-box", hoverBox);
-$(document).on("mouseleave", ".subscription-box", unhoverBox);
-$(document).on("mouseenter", ".subscription-rewind", unhoverBox);
-$(document).on("mouseleave", ".subscription-rewind", hoverBox);
+
+$(".subscription-finished").each(hoverBox);
+
+$(document).on("mouseenter", ".subscription-box .subscription-more", hoverBox);
+$(document).on("mouseleave", ".subscription-box .subscription-more", unhoverBox);
+$(document).on("mouseenter", ".subscription-more .subscription-rewind", unhoverBox);
+$(document).on("mouseleave", ".subscription-more .subscription-rewind", hoverBox);
+$(document).on("mouseenter", ".subscription-thumbnail-box", unhoverBox);
+$(document).on("mouseleave", ".subscription-thumbnail-box", hoverBox);
 $(document).on("click", ".subscription", function(event) {
   var sid = parseInt(this.id.split("subscription")[1]);
   $.ajax({
@@ -48,10 +49,11 @@ $(document).on("click", ".subscription", function(event) {
     url: "<%= watch_path(':id') %>".replace(":id", sid),
     datatype: "html",
     error: function(result){
-      alert("error doe");
+      //alert("error doe");
     },
     success: function(result){
       $("#subscription-box" + sid).append(result); 
+      $("#subscription-box" + sid).find(".subscription-finished").each(hoverBox);
       oldPanel = $("#subscription-box" + sid + " > div:first");
       newPanel = $("#subscription-box" + sid + " > div:last");
       newPanel.css("left", "150%");
@@ -87,5 +89,9 @@ $(document).on("click", ".subscription-rewind", function(event) {
       });
     }
   });
+});
+$(document).on("click", ".subscription-thumbnail-box", function(event) {
+  event.stopImmediatePropagation();
+  //var
 });
 </script>
