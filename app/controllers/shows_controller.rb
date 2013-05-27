@@ -88,7 +88,7 @@ class ShowsController < ApplicationController
     rescue Errno::ECONNRESET => e
       # Do nothing
     ensure
-      redirect_to shows_path
+      redirect_to shows_path(:anchor => @show.id)
     end
   end
 end
