@@ -3,7 +3,7 @@
   <h1><%=t '.title', :default => @show.name %></h1>
 </div>
 
-<%= image_tag @show.poster.url, :class => "show-poster" %>
+<%= image_tag @show.poster.url(:medium), :class => "show-poster" %>
 
 <div style="float:left;">
   <dl class="dl-horizontal show-info">

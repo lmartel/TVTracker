@@ -11,7 +11,7 @@
     </a>
   <% end %>
   <a class="pull-left subscription-thumbnail-box" href="<%= show_path(show) %>">
-    <%= image_tag subscription.show.poster.url, :class =>"media-object img-polaroid subscription-thumbnail" %>
+    <%= image_tag subscription.show.poster.url(:medium), :class =>"media-object img-polaroid subscription-thumbnail" %>
   </a>
   <div class="media-body">
     <h3 class="media-heading"><strong><%= show.name %></strong> <%= to_watch.numbers_and_name if to_watch %></h3>
