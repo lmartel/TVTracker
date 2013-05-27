@@ -39,6 +39,13 @@ function bindTrackingHandlers(){
   });
 };
 
+//Creates jQuery "icontains" selector for case-insensitive DOM search
+jQuery.expr[":"].icontains = jQuery.expr.createPseudo(function (arg) {                                                                                                                                                                
+    return function (elem) {                                                            
+        return jQuery(elem).text().toUpperCase().indexOf(arg.toUpperCase()) >= 0;        
+    };                                                                                  
+});
+
 function bindSearchBoxHandlers(){
   $(".search-form").submit(function(event){
     event.preventDefault();
@@ -46,7 +53,7 @@ function bindSearchBoxHandlers(){
     $("tr").removeClass("highlight");
     var input = $(this).find(".search-box").val();
     if(input.length === 0) return;
-    var link = $("#shows-table tr td:first-child a:contains('" + input + "')");
+    var link = $("#shows-table tr td:first-child a:icontains('" + input + "')");
     if(link.length == 0){
       //search failed
       $(this).addClass("error");
