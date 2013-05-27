@@ -9,6 +9,12 @@ class User < ActiveRecord::Base
   attr_accessible :email, :password, :password_confirmation
   validates :email, :uniqueness => :true
   
+  # forces subscriptions to sort alphabetically by show name
+  alias_method :original_subscriptions, :subscriptions
+  def subscriptions
+    original_subscriptions.sort_by{|s| s.show.name }
+  end
+
   def last_watched(show)
     sub = subscriptions.where(user_id: self.id, show_id: show.id)
     sub.episode unless sub.nil?
