@@ -14,7 +14,7 @@
           <% end %>
           <%= smart_navbar_item "Browse Shows", shows_path %>
           <% if current_user %>
-            <li><%= link_to "Logout", logout_path, :method => :delete %></li>
+            <li><%= link_to "Logout of <em>".html_safe + current_user.email + "</em>".html_safe, logout_path, :method => :delete %></li>
           <% else %>
             <%= smart_navbar_item "Login", login_path %>
             <%= smart_navbar_item "Signup", signup_path %>
