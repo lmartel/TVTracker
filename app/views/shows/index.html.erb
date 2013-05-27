@@ -2,7 +2,12 @@
 <% @show = Show.new %>
 
 <div class="page-header">
-  <h1><%=t '.title', :default => model_class.model_name.human.pluralize %><span class="shows-top-form"><%= render :partial => 'form', :locals => {:placeholder => "Can't find what you're looking for?" } %></span></h1>
+  <h1><%=t '.title', :default => model_class.model_name.human.pluralize %>
+    <span class="shows-top-form">
+      <%= render :partial => 'search_form' %>
+      <%= render :partial => 'create_form', :locals => {:placeholder => "Can't find what you're looking for?", :klass => "search-failed" } %>
+    </span>
+  </h1>
 </div>
 <table class="table table-striped" id="shows-table">
   <thead>
@@ -17,7 +22,7 @@
   </thead>
   <tbody>
     <% @shows.each do |show| %>
-      <tr id="show<%= show.id %>">
+      <tr id="<%= show.id %>">
         <td><%= link_to show.name, show_path(show) %></td>
         <td><%= link_to "Episode List", episodes_path(show), :class => 'btn btn-info'%></td>
         <td><%= show.ended ? "Ended" : "Still airing" %></td>
@@ -48,7 +53,7 @@
     <% end %>
   </tbody>
 </table>
-<%= render :partial => 'form', :locals => {:placeholder => "Name"} %>
+<%= render :partial => 'create_form', :locals => {:placeholder => "Name", :klass => nil} %>
 
 <div id="dialog-form" title="#" style="display:none;" data-target="<%= subscribe_path(:sid, :season, :episode) %>">
   <p class="validateTips">Which episode are you on?</p>

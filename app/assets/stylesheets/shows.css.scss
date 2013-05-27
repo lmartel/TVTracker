@@ -32,6 +32,19 @@
     width: 20%;
   }
 
+  tr.highlight {
+    td {
+      background-color: #015b4e;
+      color: white;
+    }
+
+    td:first-child {
+      a {
+        color: #34a7c8;
+      }
+    }
+  }
+
   th {
     vertical-align: middle;
   }
@@ -39,7 +52,6 @@
   td {
     vertical-align: middle;
     font-size: inherit;
-    //white-space: nowrap;
     word-wrap: break-word;
   }
 
@@ -73,5 +85,9 @@
 
   input {
     width: 300px;
+  }
+
+  .search-failed {
+    display: none;
   }
 }

@@ -14,3 +14,7 @@
 //= require jquery_ujs
 //= require twitter/bootstrap
 //= require_tree .
+
+function scrollPastNavbar() { scrollBy(0, -56); };
+window.addEventListener("hashchange", scrollPastNavbar);
+function scrollIfHash(){ if (location.hash) scrollPastNavbar(); };

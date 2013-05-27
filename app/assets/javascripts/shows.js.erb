@@ -18,7 +18,7 @@ function bindTrackingHandlers(){
   $(document).on("click", ".subscribe", function(event){
     event.preventDefault();
     var tr = $(this).closest("tr");
-    var sid = parseInt(tr[0].id.split("show")[1]);
+    var sid = parseInt(tr[0].id);
     var name = tr.find("td:first a").html();
     $("#dialog-form").attr("title", "Start tracking \"" + name + "\""); //handles first click
     $(".ui-dialog-title").html("Start tracking \"" + name + "\""); //handles subsequent clicks
@@ -39,7 +39,38 @@ function bindTrackingHandlers(){
   });
 };
 
+function bindSearchBoxHandlers(){
+  $(".search-form").submit(function(event){
+    event.preventDefault();
+    $(this).removeClass("error");
+    $("tr").removeClass("highlight");
+    var input = $(this).find(".search-box").val();
+    if(input.length === 0) return;
+    var link = $("#shows-table tr td:first-child a:contains('" + input + "')");
+    if(link.length == 0){
+      //search failed
+      $(this).addClass("error");
+      $(this).find(".search-box").blur();
+      $(".search-failed").fadeIn();
+    } else {
+      var id = link.first().closest("tr")[0].id;
+      $("#" + id).addClass("highlight");
+      $('html, body').animate({
+        scrollTop: ($("#" + id).offset().top) - 56 //-56 to account for navbar
+      }, 2000);
+    }
+  });
+
+};
+
 function bindShowHandlers(logged_in){
   bindUpdateButton();
+  bindSearchBoxHandlers();
   if(logged_in) bindTrackingHandlers();
 };
+
+$(document).ready(function(){
+  if(location.hash){
+    $(location.hash).addClass("highlight");
+  }
+});
