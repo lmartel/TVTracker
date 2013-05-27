@@ -46,3 +46,7 @@ gem 'bcrypt-ruby', '~> 3.0.0'
 
 # used for parsing API results
 gem 'json'
+
+# used for pulling poster thumbnails
+gem 'paperclip'
+gem 'aws-sdk'

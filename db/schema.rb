@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130526001751) do
+ActiveRecord::Schema.define(:version => 20130527045133) do
 
   create_table "episodes", :force => true do |t|
     t.integer  "show_id"
@@ -28,11 +28,14 @@ ActiveRecord::Schema.define(:version => 20130526001751) do
     t.string   "name"
     t.boolean  "ended"
     t.string   "airtime"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-    t.string   "thumbnail"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
     t.string   "starring"
     t.text     "summary"
+    t.string   "poster_file_name"
+    t.string   "poster_content_type"
+    t.integer  "poster_file_size"
+    t.datetime "poster_updated_at"
   end
 
   create_table "subscriptions", :force => true do |t|

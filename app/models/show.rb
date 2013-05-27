@@ -1,4 +1,5 @@
 require 'api_helper'
+require 'open-uri'
 
 class Show < ActiveRecord::Base
   has_many :episodes, dependent: :destroy
@@ -9,7 +10,10 @@ class Show < ActiveRecord::Base
 	validates :name, presence: true
 
 	# add cached aliases for typos etc?
-	attr_accessible :show_id, :api_id, :name, :ended, :airtime, :thumbnail, :starring, :summary
+	attr_accessible :show_id, :api_id, :name, :ended, :airtime, :starring, :summary
+
+	attr_accessible :poster
+	has_attached_file :poster, :styles => { :medium => "300x390>", :thumb => "118x170>" }, :default_url => "300x390.gif"
 
 	# putting this in a before_create rather than a before_validation skips validation. figure out how to avoid this.
 	before_create do |show|
@@ -66,7 +70,11 @@ class Show < ActiveRecord::Base
 		self.name = data[ApiHelper::API_DATA_KEYS[:name]]
 		self.ended = data[ApiHelper::API_DATA_KEYS[:ended]].present?
 		self.airtime = data[ApiHelper::API_DATA_KEYS[:airtime]]
-		self.thumbnail = data[ApiHelper::API_DATA_KEYS[:thumbnail]]
+		begin
+			self.poster = open(data[ApiHelper::API_DATA_KEYS[:thumbnail]])
+		rescue Exception => e
+			# Poster does not exist: leave nil
+		end
 		self.starring = data[ApiHelper::API_DATA_KEYS[:starring]]
 		self.summary = data[ApiHelper::API_DATA_KEYS[:summary]]
 	end

@@ -64,9 +64,14 @@ body {
           height: 100px;
           background: none;
           border: none;
+          box-shadow: none;
           position: absolute;
-          top: 0;
-          left: 5px;
+
+          //center in parent div regardless of size
+          top: 50%;
+          margin-top: -54px;
+          left: 50%;
+          margin-left: -54px;
         }
       }
     }
