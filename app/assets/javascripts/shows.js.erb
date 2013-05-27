@@ -54,10 +54,11 @@ function bindSearchBoxHandlers(){
       $(".search-failed").fadeIn();
     } else {
       var id = link.first().closest("tr")[0].id;
-      $("#" + id).addClass("highlight");
       $('html, body').animate({
         scrollTop: ($("#" + id).offset().top) - 56 //-56 to account for navbar
-      }, 2000);
+      }, 2000, function(){
+        $("#" + id).addClass("highlight");
+      });
     }
   });
 
