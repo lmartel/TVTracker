@@ -4,9 +4,32 @@
 
 #shows-table {
 
+  table-layout: fixed;
+  width: 1200px;
+
   .shows-demo-button {
     font-size: 13px;
     border: 1px solid black;
+  }
+
+  .table-name-column {
+    width: 10%;
+  }
+
+  .table-episodes-column {
+    width: 12%;
+  }
+
+  .table-ended-column {
+    width: 8%;
+  }
+
+  .table-airtime-column {
+    width: 15%;
+  }
+
+  .table-actions-column {
+    width: 20%;
   }
 
   th {
@@ -16,7 +39,8 @@
   td {
     vertical-align: middle;
     font-size: inherit;
-    white-space: nowrap;
+    //white-space: nowrap;
+    word-wrap: break-word;
   }
 
   .shows-table-action {

@@ -7,12 +7,12 @@
 <table class="table table-striped" id="shows-table">
   <thead>
     <tr>
-      <th><%= model_class.human_attribute_name(:name) %></th>
-      <th>All Episodes</th>
-      <th><%= "#{model_class.human_attribute_name(:ended)}?" %></th>
-      <th><%= model_class.human_attribute_name(:airtime) %></th>
-      <th>Next Episode (press <span class="label label-inverse shows-demo-button"><i class="icon-download-alt icon-white"></i> Update</span> to grab some new episodes)</th>
-      <th><%=t '.actions', :default => t("helpers.actions") %></th>
+      <th class="table-name-column"><%= model_class.human_attribute_name(:name) %></th>
+      <th class="table-episodes-column">All Episodes</th>
+      <th class="table-ended-column"><%= "#{model_class.human_attribute_name(:ended)}?" %></th>
+      <th class="table-airtime-column"><%= model_class.human_attribute_name(:airtime) %></th>
+      <th class="table-next-episode-column">Next Episode (press <span class="label label-inverse shows-demo-button"><i class="icon-download-alt icon-white"></i> Update</span> to grab some new episodes)</th>
+      <th class="table-actions-column"><%=t '.actions', :default => t("helpers.actions") %></th>
     </tr>
   </thead>
   <tbody>
@@ -20,12 +20,13 @@
       <tr id="show<%= show.id %>">
         <td><%= link_to show.name, show_path(show) %></td>
         <td><%= link_to "Episode List", episodes_path(show), :class => 'btn btn-info'%></td>
-        <td><%= show.ended ? "Yes" : "Still airing" %></td>
+        <td><%= show.ended ? "Ended" : "Still airing" %></td>
         <td><%= show.airtime || "Unknown" %></td>
         <td>
           <% ep = show.last_episode %>
           <% if ep %>
-            <%= ep.readable_name_and_airdate %>
+            <%= ep.numbers_and_name %>
+            <br><em><%= ep.readable_airdate_with_verb %></em>
           <% else %>
             Unknown (try pressing "update")
           <% end %>
@@ -61,7 +62,10 @@
   </fieldset>
   </form>
 </div>
-<style type="text/css"> .container { width: 80%; } </style>
+<style type="text/css"> 
+.container { width: 1200px; } 
+.span12 { width: 1200px;}
+</style>
 <%= stylesheet_link_tag "http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" %>
 <%= javascript_include_tag "http://code.jquery.com/ui/1.10.3/jquery-ui.js" %>
 <script type="text/javascript">
