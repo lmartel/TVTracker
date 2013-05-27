@@ -40,8 +40,8 @@ body {
 
           i {
             position: absolute;
-            left: 20%;
-            top: 15%;
+            left: 20%; 
+            top: 20%; //FontAwesome large icons are handled differently in dev and prod; this works in prod
           }
         }
       }
