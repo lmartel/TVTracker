@@ -7,9 +7,9 @@
 </div>
 <div class="subscription-list">
   <% if @subscriptions.empty? %>
-  <h2>Nothing! <%= link_to "Start tracking a show.", shows_path %></h2>
+    <h2>Nothing! <%= link_to "Start tracking a show.", shows_path %></h2>
   <% else %>
-    <% @subscriptions.each do |subscription| %>
+    <% @subscriptions.sort_by!{|s| s.show.name }.each do |subscription| %>
       <div class="subscription-box" id="subscription-box<%= subscription.id %>">
         <%= render :partial => "list_item", :locals => { :subscription => subscription } %>
       </div>

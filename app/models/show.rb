@@ -25,7 +25,7 @@ class Show < ActiveRecord::Base
 	# forces sort-descending on episodes
 	alias_method :original_episodes, :episodes
 	def episodes
-		original_episodes.order("airdate asc")
+		original_episodes.order("season_number asc, episode_number asc")
 	end
 
 	def last_episode

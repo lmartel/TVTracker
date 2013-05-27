@@ -73,6 +73,7 @@ function bindSubscriptionHandlers(){
         });
       }
     });
+    return false; //stop "#" link from resolving
   });
   $(document).on("click", ".subscription-thumbnail-box", function(event) {
     event.stopImmediatePropagation();
