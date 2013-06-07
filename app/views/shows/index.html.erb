@@ -22,7 +22,7 @@
     <% @shows.each do |show| %>
       <tr id="<%= show.id %>">
         <td class="table-name-column-entry"><%= link_to show.name, show_path(show), :class => 'btn'%>
-          <br><%= link_to "Episode List", episodes_path(show) %></td>
+          <br><%= link_to "Episode List", episodes_path(show), :class => 'episode-list-link' %></td>
         <td><%= if show.ended? then "No longer airing" else show.airtime || "Unknown" end %></td>
         <td>
           <% ep = show.last_episode %>
