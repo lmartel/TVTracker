@@ -14,8 +14,8 @@
   <tbody>
     <% @show.episodes.reverse.each do |episode| %>
       <tr>
-        <td><%= episode.numbers_and_name %></td>
-        <td><%= episode.readable_airdate_with_verb(true) %></td>
+        <td><strong><%= episode.numbers_and_name %></strong></td>
+        <td><em><%= episode.readable_airdate_with_verb(true) %></em></td>
       </tr>
     <% end %>
   </tbody>

@@ -81,15 +81,6 @@
 
 }
 
-.show-poster {
-  float:left;
-}
-
-.show-info {
-  max-width: 640px;
-  line-height: 1.1em;
-}
-
 .shows-top-form {
   float:right;
 
@@ -100,4 +91,18 @@
   .search-failed {
     display: none;
   }
+}
+
+
+.show-poster {
+  float:left;
+}
+
+.show-info {
+  max-width: 640px;
+  line-height: 1.1em;
+}
+
+div.back-button {
+  padding-left: 0px;
 }
