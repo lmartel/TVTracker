@@ -37,7 +37,6 @@ function bindSubscriptionHandlers(){
       },
       success: function(result){
         $("#subscription-box" + sid).append(result); 
-        $("#subscription-box" + sid).find(".subscription-finished").each(hoverBox);
         oldPanel = $("#subscription-box" + sid + " > div:first");
         newPanel = $("#subscription-box" + sid + " > div:last");
         newPanel.css("left", "150%");
@@ -46,6 +45,7 @@ function bindSubscriptionHandlers(){
         }, 500, function() { 
           //remove all but last child div, so the callback works even with queued animations
           $("#subscription-box" + sid + " > div").slice(0, -1).remove();
+          $("#subscription-box" + sid).find(".subscription-finished").each(hoverBox);
         });
         newPanel.animate({
           left: "-=150%"

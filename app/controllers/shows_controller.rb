@@ -85,8 +85,8 @@ class ShowsController < ApplicationController
     @show = Show.find(params[:id])
     begin
       Episode.pull_episodes(@show)
-    rescue Errno::ECONNRESET => e
-      # Do nothing
+    rescue
+      # Suppress all errors
     ensure
       redirect_to shows_path(:anchor => @show.id)
     end
