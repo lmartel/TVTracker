@@ -2,10 +2,14 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-#shows-table {
+// TODO: tablet/mobile version
+// @media only screen and (max-width: 940px) {
+//   #shows-table td:nth-child(2), 
+//   #shows-table th:nth-child(2) {display: none;}
+//   #shows-table {width: 80%;}
+// }
 
-  table-layout: fixed;
-  width: 1200px;
+#shows-table {
 
   .shows-demo-button {
     font-size: 13px;
@@ -13,23 +17,29 @@
   }
 
   .table-name-column {
-    width: 10%;
+    width: 20%;
+    text-align: center;
   }
 
-  .table-episodes-column {
-    width: 12%;
-  }
+  .table-name-column-entry {
+    text-align: center;
 
-  .table-ended-column {
-    width: 8%;
+    .btn {
+      width: 80%;
+    }
   }
 
   .table-airtime-column {
-    width: 15%;
+    width: 20%;
+  }
+
+  .table-next-episode-column {
+    width: 35%;
   }
 
   .table-actions-column {
-    width: 20%;
+    width: 25%;
+    text-align: center;
   }
 
   tr.highlight {
