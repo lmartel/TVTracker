@@ -23,14 +23,14 @@
       <tr id="<%= show.id %>">
         <td class="table-name-column-entry"><%= link_to show.name, show_path(show), :class => 'btn'%>
           <br><%= link_to "Episode List", episodes_path(show), :class => 'episode-list-link' %></td>
-        <td><%= if show.ended? then "No longer airing" else show.airtime || "Unknown" end %></td>
+        <td><%= if show.ended? then "No longer airing" else show.airtime || "Not available" end %></td>
         <td>
           <% ep = show.last_episode %>
           <% if ep %>
             <strong><%= ep.numbers_and_name %></strong>
             <br><em><%= ep.readable_airdate_with_verb %></em>
           <% else %>
-            Unknown (try pressing "update")
+            Not available (try pressing "update")
           <% end %>
         </td>
         <td>
