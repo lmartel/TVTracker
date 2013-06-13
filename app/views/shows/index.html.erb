@@ -50,7 +50,7 @@
     <% end %>
   </tbody>
 </table>
-<%= render :partial => 'create_form', :locals => {:placeholder => "Name", :klass => nil} %>
+<div class="shows-bottom-form">Can't find what you're looking for? <%= render :partial => 'create_form', :locals => {:placeholder => "Name", :klass => nil} %></div>
 
 <div id="dialog-form" title="#" style="display:none;" data-target="<%= subscribe_path(:sid, :season, :episode) %>">
   <p class="validateTips">Which episode are you on?</p>

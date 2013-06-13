@@ -54,7 +54,7 @@ function bindSearchBoxHandlers(){
     var input = $(this).find(".search-box").val();
     if(input.length === 0) return;
     var link = $("#shows-table tr td:first-child a:icontains('" + input + "')");
-    if(link.length == 0){
+    if(link.length === 0){
       //search failed
       $(this).addClass("error");
       $(this).find(".search-box").blur();
