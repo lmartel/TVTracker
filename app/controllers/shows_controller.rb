@@ -45,15 +45,15 @@ class ShowsController < ApplicationController
     respond_to do |format|
       begin
         if @show.save
-          format.html { redirect_to shows_path(:anchor => @show.id), notice: 'Show was successfully created.' }
+          format.html { redirect_to shows_path(:anchor => @show.id), :flash => { notice: '<strong>Success: </strong> created #{@show.name}.', inline: true } }
           format.json { render json: @show, status: :created, location: @show }
         else
-          format.html { redirect_to shows_path }
+          format.html { redirect_to shows_path, alert: "<strong>Error: </strong> couldn't find show \"#{@show.name}\"." }
           format.json { render json: @show.errors, status: :unprocessable_entity }
         end
       rescue
         # Surpress all errors
-        format.html { redirect_to shows_path }
+        format.html { redirect_to shows_path, alert: "<strong>Error: </strong> couldn't find show \"#{@show.name}\"." }
         format.json { render json: @show.errors, status: :unprocessable_entity }
       end
     end
@@ -89,11 +89,18 @@ class ShowsController < ApplicationController
 
   def sync
     @show = Show.find(params[:id])
+    pre = @show.episodes.count
     begin
       Episode.pull_episodes(@show)
     rescue
       # Suppress all errors
     ensure
+      if pre != @show.episodes.count 
+        flash[:notice] = "<strong>Success: </strong> \"#{@show.name}\" updated!"
+      else
+        flash[:info] = "\"#{@show.name}\" is up to date."
+      end
+      flash[:inline] = true
       redirect_to shows_path(:anchor => @show.id)
     end
   end

@@ -1,6 +1,16 @@
 <%- model_class = Show -%>
 <% @show = Show.new %>
 
+<% if !flash[:inline] %>
+  <div class="shows-top-alerts">
+    <%= render :partial => 'flash_alert', :locals => {:flash => flash } %>
+  </div>
+<% else %>
+  <div class="shows-inline-alerts">
+    <%= render :partial => 'flash_alert', :locals => {:flash => flash } %>
+  </div>
+<% end %>
+
 <div class="page-header">
   <h1><%=t '.title', :default => model_class.model_name.human.pluralize %>
     <span class="shows-top-form">
@@ -9,6 +19,7 @@
     </span>
   </h1>
 </div>
+
 <table class="table table-striped" id="shows-table">
   <thead>
     <tr>
@@ -47,6 +58,7 @@
           </span>
         </td>
       </tr>
+
     <% end %>
   </tbody>
 </table>
@@ -66,8 +78,10 @@
 </div>
 <%= stylesheet_link_tag "http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" %>
 <%= javascript_include_tag "http://code.jquery.com/ui/1.10.3/jquery-ui.js" %>
+
 <script type="text/javascript">
 $(document).ready(function(){
   bindShowHandlers(<%= current_user ? true : false %>);
+  bindHashHandlers(<%= flash[:inline] ? true : false %>);
 });
 </script>

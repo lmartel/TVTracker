@@ -24,7 +24,7 @@
           You're almost caught up!
         <% else %>
           You're caught up!
-          <br>Want to <%= link_to "check for more episodes", "#{shows_path}##{show.id}" %> or <%= link_to "watch something else", shows_path %>?
+          <br>Want to <%= link_to "check for more episodes", shows_path(:anchor => show.id) %> or <%= link_to "watch something else", shows_path %>?
         <% end %>
       </em>
     </div>

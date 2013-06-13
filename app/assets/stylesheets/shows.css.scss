@@ -9,6 +9,23 @@
 //   #shows-table {width: 80%;}
 // }
 
+.shows-top-alerts {
+  width: inherit;
+  text-align: center;
+  position: absolute;
+}
+
+.shows-inline-alerts {
+  display: none;
+  text-align: center;
+}
+
+.shows-alert {
+    width: 60%;
+    margin: 0 auto;
+    top: 10%;
+  }
+
 #shows-table {
 
   .shows-demo-button {
