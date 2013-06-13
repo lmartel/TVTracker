@@ -43,10 +43,16 @@ class ShowsController < ApplicationController
     @show = Show.new(params[:show])
 
     respond_to do |format|
-      if @show.save
-        format.html { redirect_to shows_path(:anchor => @show.id), notice: 'Show was successfully created.' }
-        format.json { render json: @show, status: :created, location: @show }
-      else
+      begin
+        if @show.save
+          format.html { redirect_to shows_path(:anchor => @show.id), notice: 'Show was successfully created.' }
+          format.json { render json: @show, status: :created, location: @show }
+        else
+          format.html { redirect_to shows_path }
+          format.json { render json: @show.errors, status: :unprocessable_entity }
+        end
+      rescue
+        # Surpress all errors
         format.html { redirect_to shows_path }
         format.json { render json: @show.errors, status: :unprocessable_entity }
       end
