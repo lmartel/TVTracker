@@ -16,3 +16,9 @@
       <%= flash[:alert].html_safe %>
   </div>
 <% end %>
+<% if flash[:track] %>
+  <div class="alert shows-alert">
+      <a class="close">×</a>
+      <%= flash[:track].html_safe %>
+  </div>
+<% end %>

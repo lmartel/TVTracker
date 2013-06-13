@@ -15,11 +15,11 @@ class SubscriptionsController < ApplicationController
   # DELETE /subscriptions/1.json
   def destroy
     @subscription = Subscription.find(params[:id])
-    name = @subscription.show.name
+    show = @subscription.show
     @subscription.destroy
 
     respond_to do |format|
-      format.html { redirect_to shows_url, :flash => {info: "Stopped tracking \"#{name}\"."} }
+      format.html { redirect_to shows_url(:anchor => show.id), :flash => { alert: "Stopped tracking \"#{show.name}\".", inline: true} }
       format.json { head :no_content }
     end
   end
@@ -34,7 +34,7 @@ class SubscriptionsController < ApplicationController
       Subscription.create(user_id: current_user.id, show_id: @show.id, episode_id: episode_id)
 
       respond_to do |format|
-        format.html { redirect_to shows_url(:anchor => @show.id), :flash => { notice: "Started tracking \"#{@show.name}\".", inline: true} }
+        format.html { redirect_to shows_url(:anchor => @show.id), :flash => { track: "Started tracking \"#{@show.name}\".", inline: true} }
         format.json { head :no_content }
       end
     end
