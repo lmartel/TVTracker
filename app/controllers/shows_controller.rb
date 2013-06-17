@@ -45,7 +45,7 @@ class ShowsController < ApplicationController
     respond_to do |format|
       begin
         if @show.save
-          format.html { redirect_to shows_path(:anchor => @show.id), :flash => { notice: '<strong>Success: </strong> created #{@show.name}.', inline: true } }
+          format.html { redirect_to shows_path(:anchor => @show.id), :flash => { notice: "<strong>Success: </strong> created #{@show.name}.", inline: true } }
           format.json { render json: @show, status: :created, location: @show }
         else
           format.html { redirect_to shows_path, alert: "<strong>Error: </strong> couldn't find show \"#{@show.name}\"." }
