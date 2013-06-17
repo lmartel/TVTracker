@@ -48,12 +48,12 @@ class ShowsController < ApplicationController
           format.html { redirect_to shows_path(:anchor => @show.id), :flash => { notice: "<strong>Success: </strong> created #{@show.name}.", inline: true } }
           format.json { render json: @show, status: :created, location: @show }
         else
-          format.html { redirect_to shows_path, alert: "<strong>Error: </strong> couldn't find show \"#{@show.name}\"." }
+          format.html { redirect_to shows_path, alert: "<strong>Error: </strong> couldn't load new show \"#{@show.name}\"." }
           format.json { render json: @show.errors, status: :unprocessable_entity }
         end
       rescue
         # Surpress all errors
-        format.html { redirect_to shows_path, alert: "<strong>Error: </strong> couldn't find show \"#{@show.name}\"." }
+        format.html { redirect_to shows_path, alert: "<strong>Error: </strong> couldn't load new show \"#{@show.name}\"." }
         format.json { render json: @show.errors, status: :unprocessable_entity }
       end
     end
