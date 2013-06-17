@@ -91,7 +91,7 @@ class Episode < ActiveRecord::Base
 				break
 			end 
 			ep_num += 1
-			break if timeout && Time.now.to_f - start >= 30.000 # Max processing time in seconds
+			break if timeout && Time.now.to_f - start >= 24.000 # Max processing time in seconds
 		end
 
 	end
