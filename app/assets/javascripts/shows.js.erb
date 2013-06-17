@@ -3,7 +3,7 @@
 function bindUpdateButton(){
   $(document).on("click", ".btn.update", function(event){ 
     $(this).closest("form").submit();
-    $(this).attr("disabled", "disabled"); 
+    $(".btn.update").attr("disabled", "disabled"); 
     $(this).children("i").removeClass().addClass("icon-white icon-refresh icon-spin");
     $(this).off();
     var cell = $(this).closest("td");
