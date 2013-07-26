@@ -1,4 +1,31 @@
-<div class="homepage-copy"><h1>HOLY SHIT I FINALLY GOT THIS FUCKER WORKING</h1>jesus</div>
 <div class="artsy-wrapper">
     <div class="artsy"></div>
+</div>
+<div class="homepage-copy">
+    <h1>Welcome to TVTracker!</h1>
+    <h2>Have you heard about... </h2>
+    <% dummy_subscription = Subscription.new %>
+    <% dummy_subscription.episode = Episode.get_promo_upcoming %>
+    <% dummy_subscription.show = dummy_subscription.episode.show %>
+    <%= render :partial => "subscriptions/list_item", :layout => false, :locals => { :subscription => dummy_subscription, :promo => true } %>
+    <div class="homepage-columns-wrapper">
+        <div class="span4 homepage-column">
+            <div class="artsy-background"></div>
+            <h1>FIND!</h1>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </p>
+        </div>
+        <div class="span4 homepage-column">
+            <div class="artsy-background"></div>
+            <h1>TRACK!</h1>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </p>
+        </div>
+        <div class="span4 homepage-column">
+            <div class="artsy-background"></div>
+            <h1>LEARN!</h1>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </p>
+        </div>
+    </div>
 </div>

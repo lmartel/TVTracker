@@ -95,4 +95,9 @@ class Episode < ActiveRecord::Base
 		end
 
 	end
+
+	def self.get_promo_upcoming
+		upcoming = self.where("airdate >= ?", Date.today).order("airdate ASC").limit(10)
+		upcoming[rand(0..upcoming.count-1)]
+	end
 end

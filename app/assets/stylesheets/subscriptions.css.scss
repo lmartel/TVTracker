@@ -45,35 +45,35 @@ body {
           }
         }
       }
-
-      .subscription-thumbnail-box {
-
-        position: relative;
-
-        :hover {
-            background: #34a7c8;
-          }
-
-        .subscription-thumbnail {
-          height: 160px;
-          margin-top: -20px;
-        }
-
-        .subscription-checkbox {
-          width: 100px;
-          height: 100px;
-          background: none;
-          border: none;
-          box-shadow: none;
-          position: absolute;
-
-          //center in parent div regardless of size
-          top: 50%;
-          margin-top: -54px;
-          left: 50%;
-          margin-left: -54px;
-        }
-      }
     }
+  }
+}
+
+.subscription-thumbnail-box {
+
+  position: relative;
+
+  :hover {
+      background: #34a7c8;
+    }
+
+  .subscription-thumbnail {
+    height: 160px;
+    margin-top: -20px;
+  }
+
+  .subscription-checkbox {
+    width: 100px;
+    height: 100px;
+    background: none;
+    border: none;
+    box-shadow: none;
+    position: absolute;
+
+    //center in parent div regardless of size
+    top: 50%;
+    margin-top: -54px;
+    left: 50%;
+    margin-left: -54px;
   }
 }

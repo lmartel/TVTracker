@@ -3,9 +3,14 @@
 <% last_watched = subscription.episode %>
 <% to_watch = show.next_episode(last_watched) %>
 <% up_next = show.next_episode(to_watch) %>
+<% promo ||= false %>
+<% if promo %>
+  <% to_watch = last_watched %>
+  <% last_watched = nil %>
+<% end %>
 
 <div class="media hero-unit subscription <%= if to_watch then "subscription-more" else "subscription-finished" end %>" id="subscription<%= subscription.id %>">
-  <% if last_watched %>
+  <% if last_watched && !promo %>
     <a class="pull-right subscription-rewind" href="#">
       <button class="btn btn-danger"><i class="icon-backward icon-large"></i></button>
     </a>
@@ -16,18 +21,22 @@
   <div class="media-body">
     <h3 class="media-heading"><strong><%= show.name %></strong> <%= to_watch.numbers_and_name if to_watch %></h3>
     <h4 class="media-heading"><%= to_watch.readable_airdate_with_verb if to_watch %></h4>
-    <div class="watch-next">
-      <em>
-        <% if to_watch && up_next %>
-          Watch next: <%= up_next.numbers_and_name %>
-        <% elsif to_watch %>
-          You're almost caught up!
-        <% else %>
-          You're caught up!
-          <br>Want to <%= link_to "check for more episodes", shows_path(:anchor => show.id) %> or <%= link_to "watch something else", shows_path %>?
-        <% end %>
-      </em>
-    </div>
+    <% if promo %>
+      <%= link_to (raw '<i class="icon-desktop icon-white"></i> &nbsp;&nbsp;Start Tracking All Your Favorite TV Shows'), signup_path, :class => "btn btn-success" %>
+    <% else %>
+      <div class="watch-next">
+        <em>
+          <% if to_watch && up_next %>
+            Watch next: <%= up_next.numbers_and_name %>
+          <% elsif to_watch %>
+            You're almost caught up!
+          <% else %>
+            You're caught up!
+            <br>Want to <%= link_to "check for more episodes", shows_path(:anchor => show.id) %> or <%= link_to "watch something else", shows_path %>?
+          <% end %>
+        </em>
+      </div>
+    <% end %>
   </div>
 
 </div>

@@ -5,13 +5,38 @@
 .homepage-copy {
     position: absolute;
     z-index: 1;
-    color: white;
+    color: #013435;
     width: inherit;
     text-align: center;
 
-    h1 {
-        color: white;
+    .homepage-column {
+        position: relative;
+
+        &:first-child {
+            margin-left: 0;
+        }
+
+        .artsy-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+
+            background: white;
+            opacity: 0.75;
+            -moz-border-radius: 15px;
+            border-radius: 15px;
+
+            z-index: -1;
+        }
     }
+
+    .subscription {
+        height: 130px;
+        margin-bottom: 60px;
+    }
+    
 }
 
 .artsy-wrapper {
