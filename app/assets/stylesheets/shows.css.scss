@@ -126,4 +126,16 @@ div.back-button {
 
 .shows-bottom-form {
   text-align: center;
+  color: #ffffff;
+}
+
+.show-info-page {
+  position: relative;
+  padding: 0 0 40px 40px;
+  margin-left: 0;
+  margin-top: 40px;
+
+    .content-background {
+      opacity: 0.9;
+    }
 }

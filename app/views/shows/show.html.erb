@@ -1,31 +1,33 @@
 <%- model_class = Show -%>
-<div class="page-header">
-  <h1><%=t '.title', :default => @show.name %></h1>
+<div class="span12 show-info-page">
+  <div class="content-background"></div>
+  <div class="page-header">
+    <h1><%=t '.title', :default => @show.name %></h1>
+  </div>
+
+  <%= image_tag @show.poster.url(:medium), :class => "show-poster" %>
+
+  <div style="float:left;">
+    <dl class="dl-horizontal show-info">
+      <dt><strong><%= model_class.human_attribute_name(:airtime) %></strong></dt>
+      <dd><%= @show.airtime ? @show.airtime : "Unknown" %></dd>
+      <br>
+      <dt><strong>Ended?</strong></dt>
+      <dd><%= @show.ended ? "Yes" : "Still airing" %></dd>
+      <br>
+      <dt><strong>Starring</strong></dt>
+      <dd><%= @show.starring %></dd>
+      <br>
+      <dt><strong>Plot</strong></dt>
+      <dd><%= @show.summary %></dd>
+      <br>
+      <dt><strong>Episodes</strong><dt>
+      <dd><%= link_to "Episode List", episodes_path(@show), :class => 'btn btn-info'%></dd>
+      <dd>
+        <div class="form-actions back-button">
+          <%= link_to "Back to list", shows_path, :class => 'btn'  %>
+        </div>
+      </dd>
+    </dl>
+  </div>
 </div>
-
-<%= image_tag @show.poster.url(:medium), :class => "show-poster" %>
-
-<div style="float:left;">
-  <dl class="dl-horizontal show-info">
-    <dt><strong><%= model_class.human_attribute_name(:airtime) %></strong></dt>
-    <dd><%= @show.airtime ? @show.airtime : "Unknown" %></dd>
-    <br>
-    <dt><strong>Ended?</strong></dt>
-    <dd><%= @show.ended ? "Yes" : "Still airing" %></dd>
-    <br>
-    <dt><strong>Starring</strong></dt>
-    <dd><%= @show.starring %></dd>
-    <br>
-    <dt><strong>Plot</strong></dt>
-    <dd><%= @show.summary %></dd>
-    <br>
-    <dt><strong>Episodes</strong><dt>
-    <dd><%= link_to "Episode List", episodes_path(@show), :class => 'btn btn-info'%></dd>
-    <dd>
-      <div class="form-actions back-button">
-        <%= link_to "Back to list", shows_path, :class => 'btn'  %>
-      </div>
-    </dd>
-  </dl>
-</div>
-

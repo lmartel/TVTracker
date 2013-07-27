@@ -1,31 +1,25 @@
-<div class="artsy-wrapper">
-    <div class="artsy"></div>
-</div>
 <div class="homepage-copy">
     <h1>Welcome to TVTracker!</h1>
-    <h2>Have you heard about... </h2>
+    <h3>Have you heard about... </h3>
     <% dummy_subscription = Subscription.new %>
     <% dummy_subscription.episode = Episode.get_promo_upcoming %>
     <% dummy_subscription.show = dummy_subscription.episode.show %>
     <%= render :partial => "subscriptions/list_item", :layout => false, :locals => { :subscription => dummy_subscription, :promo => true } %>
     <div class="homepage-columns-wrapper">
         <div class="span4 homepage-column">
-            <div class="artsy-background"></div>
-            <h1>FIND!</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-            </p>
+            <div class="content-background"></div>
+            <h1><%= link_to "BROWSE", shows_path %></h1>
+            <h3>Browse or search the hundreds of TV shows we're already tracking.<br><br>(And add your missing favorites instantly.)</h3>
         </div>
         <div class="span4 homepage-column">
-            <div class="artsy-background"></div>
-            <h1>TRACK!</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-            </p>
+            <div class="content-background"></div>
+            <h1><%= link_to "TRACK", track_path %></h1>
+            <h3>Track your progress through your TV shows and get airdates.<br><br>Never miss a season premiere again!<h3>
         </div>
         <div class="span4 homepage-column">
-            <div class="artsy-background"></div>
-            <h1>LEARN!</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-            </p>
+            <div class="content-background"></div>
+            <h1><%= link_to "DISCOVER", show_path(dummy_subscription.show) %></h1>
+            <h3>Discover new shows with synopses, posters, and cast and episode info.<br><br>How about a <%= link_to "list", episodes_path(Show.find_by_name("The Simpsons")) %> of every Simpsons episode?</h3>
         </div>
     </div>
 </div>

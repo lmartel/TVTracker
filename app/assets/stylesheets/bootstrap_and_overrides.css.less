@@ -49,3 +49,35 @@ footer {
   text-align: center;
   border-top: solid #555555 1px;
 }
+
+.artsy-wrapper {
+    position: relative;
+    text-overflow: hidden;
+    width: 100%;
+    height: 100%;
+}
+
+.artsy {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("problem.jpg");
+    z-index: -1;
+}
+
+.content-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    background: white;
+    opacity: 0.75;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+
+    z-index: -1;
+}

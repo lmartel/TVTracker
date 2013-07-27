@@ -22,7 +22,7 @@
     <h3 class="media-heading"><strong><%= show.name %></strong> <%= to_watch.numbers_and_name if to_watch %></h3>
     <h4 class="media-heading"><%= to_watch.readable_airdate_with_verb if to_watch %></h4>
     <% if promo %>
-      <%= link_to (raw '<i class="icon-desktop icon-white"></i> &nbsp;&nbsp;Start Tracking All Your Favorite TV Shows'), signup_path, :class => "btn btn-success" %>
+      <%= link_to (raw '<i class="icon-desktop icon-white"></i> &nbsp;&nbsp;Start Tracking All Your Favorite TV Shows'), if current_user then shows_path else signup_path end, :class => "btn btn-success" %>
     <% else %>
       <div class="watch-next">
         <em>
