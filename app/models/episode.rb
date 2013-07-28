@@ -97,7 +97,10 @@ class Episode < ActiveRecord::Base
 	end
 
 	def self.get_promo_upcoming
-		upcoming = self.where("airdate >= ?", Date.today).order("airdate ASC").limit(10)
+		# Advertise something airing this week
+		upcoming = self.where("airdate >= ? AND airdate < ?", Date.today, Date.today + 7).order('airdate ASC')
+		# Backup plan: just find something from the future
+		upcoming = self.where("airdate >= ?", Date.today).order("airdate ASC").limit(5) if upcoming.empty?
 		upcoming[rand(0..upcoming.count-1)]
 	end
 end
