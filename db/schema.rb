@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130527045133) do
+ActiveRecord::Schema.define(:version => 20130728224242) do
 
   create_table "episodes", :force => true do |t|
     t.integer  "show_id"
@@ -22,6 +22,8 @@ ActiveRecord::Schema.define(:version => 20130527045133) do
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
   end
+
+  add_index "episodes", ["show_id"], :name => "index_episodes_on_show_id"
 
   create_table "shows", :force => true do |t|
     t.integer  "api_id"
