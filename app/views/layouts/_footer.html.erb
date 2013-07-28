@@ -1,5 +1,8 @@
 <footer id="footer" class="navbar-fixed-bottom">
-    Made by <a href="http://www.lpm.io">Leo Martel</a>
-    | <a href="http://www.github.com/lmartel/TVTrackerPrototype">Github</a>
+    Made by <%= link_to "Leo Martel", "http://www.lpm.io" %>
+    | <%= link_to "Feedback", "mailto:leo@lpm.io" %>
+    <% if ENV['OSS'] %>
+    | <%= link_to "Github", "http://www.github.com/lmartel/TVTracker" %>
+    <% end %>
     | <a href="#" onclick="$("body").scrollTop(0);">Top</a>
 </footer>
