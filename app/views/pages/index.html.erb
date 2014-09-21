@@ -20,7 +20,7 @@
         </div>
         <div class="span4 homepage-column">
             <div class="content-background"></div>
-            <h1><%= link_to "DISCOVER", show_path(dummy_subscription.show) %></h1>
+            <h1><%= link_to "DISCOVER", dummy_subscription.show ? show_path(dummy_subscription.show) : '#' %></h1>
             <h3>Discover new shows with synopses, posters, and cast and episode info.<br><br>How about a <%= link_to "list", episodes_path(Show.find_by_name("The Simpsons")) %> of every Simpsons episode?</h3>
         </div>
     </div>
