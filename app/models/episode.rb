@@ -101,6 +101,6 @@ class Episode < ActiveRecord::Base
 		upcoming = self.where("airdate >= ? AND airdate < ?", Date.today, Date.today + 7).order('airdate ASC')
 		# Backup plan: just find something from the future
 		upcoming = self.where("airdate >= ?", Date.today).order("airdate ASC").limit(5) if upcoming.empty?
-		upcoming.empty? ? [] : upcoming[rand(0..upcoming.count-1)]
+		upcoming.empty? ? nil : upcoming[rand(0..upcoming.count-1)]
 	end
 end

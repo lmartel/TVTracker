@@ -1,10 +1,12 @@
 <div class="homepage-copy">
     <h1>Welcome to TVTracker!</h1>
-    <h3>Have you heard about... </h3>
     <% dummy_subscription = Subscription.new %>
     <% dummy_subscription.episode = Episode.get_promo_upcoming %>
-    <% dummy_subscription.show = dummy_subscription.episode.show %>
-    <%= render :partial => "subscriptions/list_item", :layout => false, :locals => { :subscription => dummy_subscription, :promo => true } %>
+    <% if dummy_subscription.episode %>
+        <% dummy_subscription.show = dummy_subscription.episode.show %>
+        <h3>Have you heard about... </h3>
+        <%= render :partial => "subscriptions/list_item", :layout => false, :locals => { :subscription => dummy_subscription, :promo => true } %>
+    <% end %>
     <div class="homepage-columns-wrapper">
         <div class="span4 homepage-column">
             <div class="content-background"></div>
